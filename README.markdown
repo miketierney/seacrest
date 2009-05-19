@@ -1,6 +1,6 @@
 ## Seacrest
 
-* http://wiki.github.com/panpainter/seacrest
+* [http://wiki.github.com/panpainter/seacrest](http://wiki.github.com/panpainter/seacrest)
 
 ### DESCRIPTION:
 
