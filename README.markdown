@@ -4,7 +4,7 @@
 
 ### DESCRIPTION:
 
-A collection of tools that helps webmasters, developers, and designers maintain a neat and tidy codebase.
+A collection of tools for web masters, designers and developers to create and maintain a semantic and healthy codebase
 
 ### FEATURES/PROBLEMS:
 
