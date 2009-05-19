@@ -1,32 +1,42 @@
-= webmaster_toolbox
+= seacrest
 
-* FIX (url)
+* http://wiki.github.com/panpainter/seacrest
 
 == DESCRIPTION:
 
-FIX (describe your package)
+A collection of tools that helps webmasters, developers, and designers maintain a neat and tidy codebase.
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+=== TODO:
+Build the following
+
+- Identify broken URLs (internal, external and resources)
+- Identify any duplicate META descriptions
+- Identify missing headings from document structure
+- Identify duplicate page titles
+- Find orphaned IDs and classes declared in any CSS files but no longer in use in your HTML files
+- Find orphaned images no longer being called from HTML/CSS
+- Generate a Google Sitemap
+- The command line interface would allow you to run the entire suite or each tool individually via triggers.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+None yet
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+None yet
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+*No installer yet ... will probably be a gem at some point.*
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 FIX
+Copyright (c) 2009 Matthew Anderson, Brandon Caplan and Michael Tierney
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

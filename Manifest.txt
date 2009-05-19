@@ -2,6 +2,6 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
-bin/webmaster_toolbox
-lib/webmaster_toolbox.rb
-test/test_webmaster_toolbox.rb
+bin/seacrest
+lib/seacrest.rb
+test/test_seacrest.rb

@@ -1,6 +1,6 @@
-=== 1.0.0 / 2009-05-17
+=== 0.0.1 / 2009-05-19
 
 * 1 major enhancement
 
-  * Birthday!
+  * Codebase established, names attributed, and basics worked out.
 
