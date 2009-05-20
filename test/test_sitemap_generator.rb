@@ -21,4 +21,8 @@ class TestSitemapGenerator < Test::Unit::TestCase
       ]
     assert_equal expected, @sg.traverse('test/traverse')
   end
+  
+  def test_new_pages_get_added_to_sitemap
+    
+  end
 end
