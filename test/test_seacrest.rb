@@ -1,5 +1,4 @@
-require "test/unit"
-require "seacrest"
+require 'helper'
 
 class TestSeacrest < Test::Unit::TestCase
   def test_sanity
