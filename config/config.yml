@@ -1,0 +1,12 @@
+# SEACREST SETTINGS
+#
+# If you are going to run your sitemap through a validator, set validate to true to add the necessary headers to your file
+validate: false
+#
+# Uncomment the line below if you would like to specify a priority for your pages
+# Options: 0.1 - 1.0
+priority: 0.5
+#
+# Uncomment the line below if you would like to specify a change frequency for your pages
+# Options: daily, weekly, monhly
+changefreq: weekly
