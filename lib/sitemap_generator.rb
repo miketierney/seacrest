@@ -1,6 +1,5 @@
 require 'find'
 require 'fileutils'
-require 'nokogiri'
 
 class SitemapGenerator
   # def initialze
