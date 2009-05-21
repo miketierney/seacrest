@@ -1,20 +1,72 @@
 require 'helper'
 
-class TestUrlChecker < Test::Unit::TestCase
-  # TODO: mock Net::HTTP.get_response
-  def test_true_on_good_external_link
-    assert Seacrest::UrlChecker.check('http://www.apple.com')
+module Seacrest::UrlChecker::Net
+  class HTTP
+    @@got_response = []
+    @@respond_with = []
+    def self.got_response
+      @@got_response.pop
+    end
+    
+    def self.respond_with object
+      @@respond_with << object
+    end
+    
+    def self.get_response url
+      @@got_response << url
+      @@respond_with.pop
+    end
   end
+end
+
+class FakeResponse
+  attr_reader :header
   
-  def test_false_on_bad_url
-    assert ! Seacrest::UrlChecker.check('http://asdf.asdfasdf.asdf')
+  def initialize header
+    @header = header
+  end
+end
+
+class FakeHeader
+  attr_reader :code
+
+  def initialize code, hash = {}
+    @code = code
+    @hash = hash
   end
 
-  def test_handles_301
-    
+  def [] key
+    @hash[key]
+  end
+
+  def header
+    self
+  end
+
+  def code
+    @code
+  end
+
+end
+
+
+class TestUrlChecker < Test::Unit::TestCase
+
+  def test_true_on_good_external_url
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('200'))
+    assert Seacrest::UrlChecker.check('http://www.apple.com'), "Didn't get true back from check"
   end
   
-  def test_handles_302
-    
+  def test_false_on_bad_external_url
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('404'))
+    assert ! Seacrest::UrlChecker.check('http://www.badapple.com'), "Didn't get false back from check"
   end
+
+  def test_handles_3xx_redirect
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('200'))
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => 'http://www.apple.com'}))
+
+    assert Seacrest::UrlChecker.check('http://www.apple.com/back'), "Didn't get true back from check"
+  end
+
 end
