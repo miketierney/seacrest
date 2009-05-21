@@ -9,7 +9,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
     first = File.new 'test/traverse/first.html', 'w'; first.close
     second = File.new 'test/traverse/again/second.html', 'w'; second.close
     sitemap = File.new 'test/traverse/sitemap.xml', 'w'
-    builder = Nokogiri::XML::Builder.new do
+    builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
       urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') {
         url {
           loc 'first.html'
@@ -32,7 +32,12 @@ class TestSitemapGenerator < Test::Unit::TestCase
     assert_equal expected, @sg.traverse('test/traverse')
   end
   
+  def test_sitemap_xml_file_gets_ignored
+    pages = @sg.traverse('test/traverse')
+    assert_not_equal 'sitemap.xml', pages.detect { |p| p == 'sitemap.xml' }
+  end
+  
   def test_new_pages_get_added_to_sitemap
-    assert_match '<loc>again/second.html</loc>', @sitemap
+    assert_match /(<loc>again\/second.html<\/loc>)/, @sitemap
   end
 end
