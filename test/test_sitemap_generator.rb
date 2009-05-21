@@ -8,6 +8,16 @@ class TestSitemapGenerator < Test::Unit::TestCase
     Dir.mkdir 'test/traverse/again'
     first = File.new 'test/traverse/first.html', 'w'; first.close
     second = File.new 'test/traverse/again/second.html', 'w'; second.close
+    sitemap = File.new 'test/traverse/sitemap.xml', 'w'
+    builder = Nokogiri::XML::Builder.new do
+      urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') {
+        url {
+          loc 'first.html'
+        }
+      }
+    end
+    sitemap.puts builder.to_xml
+    sitemap.close
   end
   
   def teardown
@@ -23,6 +33,6 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
   
   def test_new_pages_get_added_to_sitemap
-    
+    assert_match '<loc>again/second.html</loc>', @sitemap
   end
 end
