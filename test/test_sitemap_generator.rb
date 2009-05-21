@@ -3,7 +3,7 @@ require 'sitemap_generator'
 
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
-    @sg = SitemapGenerator.new
+    @sg = SitemapGenerator.new 'test/traverse'
     Dir.mkdir 'test/traverse'
     Dir.mkdir 'test/traverse/again'
     first = File.new 'test/traverse/first.html', 'w'; first.close
@@ -39,5 +39,22 @@ class TestSitemapGenerator < Test::Unit::TestCase
   
   def test_new_pages_get_added_to_sitemap
     assert_match /(<loc>again\/second.html<\/loc>)/, @sitemap
+  end
+  
+  def test_existing_pages_stay_put
+    assert_match /(<priority>1.0<\/priority>)/, @sitemap
+  end
+  
+  def test_validation_option_adds_extra_headers
+    assert_match /(xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance")/, @sitemap, "We're missing the xmlns:xsi header"
+    assert_match /(xsi:schemaLocation="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9 http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9\/sitemap.xsd")/, @sitemap, "We're missing xsi:schemaLocation header"
+  end
+  
+  def test_priority_default_adds_tag
+    assert_match /<priority>0.5<\/priority>/, @sitemap
+  end
+  
+  def test_changefreq_default_adds_tag
+    assert_match /<changefreq>weekly<\/changefreq>/, @sitemap
   end
 end
