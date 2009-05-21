@@ -17,6 +17,8 @@ module Seacrest
       case response.header.code
       when '200'
         true
+      when /^3/
+        UrlChecker.check response.header['Location']
       else
         false
       end

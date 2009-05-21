@@ -1,5 +1,6 @@
 require 'find'
 require 'fileutils'
+require 'rubygems'
 require 'nokogiri'
 
 class SitemapGenerator
