@@ -53,4 +53,23 @@ class TestCSScrubber < Test::Unit::TestCase
     assert (@scrubber.read_file @css), "should be able to open the css file with no problems."
     assert (@scrubber.read_file @html), "should be able to open the html file with no problems."
   end
+  
+  def test_declarations_hash_gets_populated
+    @scrubber.parse_css
+    actual = @scrubber.declarations
+    expected = {
+      'body' => ['csscrubber.css','1'],
+      'a:link' => ['csscrubber.css','7'],
+      'a:visited' => ['csscrubber.css','7'],
+      'a:hover' => ['csscrubber.css','13'],
+      'a:active' => ['csscrubber.css','13'],
+      'div.message' => ['csscrubber.css','18'],
+      '.info' => ['csscrubber.css','25'],
+      '.info.message' => ['csscrubber.css','32'],
+      'em' => ['csscrubber.css','32'],
+      '.ampersand' => ['csscrubber.css','32'],
+      '.message' => ['csscrubber.css','42']
+    }
+    assert_equal expected, actual
+  end
 end

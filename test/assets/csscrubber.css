@@ -45,3 +45,17 @@ div.message {
   float: left;
   width: 30%;
 }
+
+.message {
+  margin: 0 auto;
+  padding: 0;
+  float: left;
+  width: 30%;
+}
+
+.message{ margin: 0 auto; padding: 0; float: left; width: 30%;}
+
+.message
+{
+  margin: 0 auto; padding: 0; float: left; width: 30%;
+}
