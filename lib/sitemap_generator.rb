@@ -4,8 +4,13 @@ require 'rubygems'
 require 'nokogiri'
 
 class SitemapGenerator
-  # def initialze
-  # end
+  attr_accessor :sitemap
+  
+  CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml"))
+  
+  def initialize origin
+    traverse origin
+  end
   
   def traverse origin
     @pages = []
