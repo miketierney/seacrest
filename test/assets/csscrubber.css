@@ -1,0 +1,47 @@
+body {
+  font: normal 62.5% "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
+  line-height: 1;
+  color: #444;
+}
+
+a:link, a:visited {
+  color: #9cc;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* I know it's inconsistent, but I want to catch all of the edge cases */
+
+a:hover, a:active { color: #fff; background-color: #9cc; }
+
+div.message {
+  margin: 0 auto;
+  padding: 0;
+  float: left;
+  width: 30%;
+}
+
+.info {
+  padding: 20px;
+  border: 1px solid #ddd;
+  background-color: #efefef;
+  color: #222;
+}
+
+.info.message, em, .ampersand {
+  font-family: Cambria, Georgia, Times, "Times New Roman", serif;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.info {
+  text-align: right;
+}
+
+.message
+{
+  margin: 0 auto;
+  padding: 0;
+  float: left;
+  width: 30%;
+}
