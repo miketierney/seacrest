@@ -50,17 +50,20 @@ module Seacrest
     def parse_css
       
     file = File.new('./test/assets/csscrubber.css')
+    @content.each_line do |line|
+      puts line
+    end
 
-    sac = CSS::SAC::Parser.new
-    doc = sac.parse(file.read)
-    doc.rules.each do |rule|
-      puts rule.selector.to_css
+    # sac = CSS::SAC::Parser.new
+    # doc = sac.parse(file.read)
+    # doc.rules.each do |rule|
+    #   puts rule.selector.to_css
       # puts rule.selector
       # rule.properties.each do |property|
       #   puts "  #{property[0]}: #{property[1]}#{' !important' unless property[2] == false};"
       # end
       # puts "}\n\n"
-    end      
+    # end
     #   line_number = 0
     #   line_numbers = Array.new
     #   line_array = Array.new

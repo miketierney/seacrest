@@ -2,7 +2,7 @@ $: << File.dirname(__FILE__)
 
 require 'rubygems'
 require 'nokogiri'
-require 'seacrest/c_s_scrubber'
+require 'seacrest/csscrubber'
 require 'seacrest/url_checker'
 
 module Seacrest

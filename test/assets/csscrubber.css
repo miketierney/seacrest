@@ -10,10 +10,9 @@ a:link, a:visited {
   text-decoration: none;
 }
 
-a:hover, a:active {
-  color: #fff;
-  background-color: #9cc;
-}
+/* I know it's inconsistent, but I want to catch all of the edge cases */
+
+a:hover, a:active { color: #fff; background-color: #9cc; }
 
 div.message {
   margin: 0 auto;
@@ -39,23 +38,10 @@ div.message {
   text-align: right;
 }
 
-.message {
-  margin: 0 auto;
-  padding: 0;
-  float: left;
-  width: 30%;
-}
-
-.message {
-  margin: 0 auto;
-  padding: 0;
-  float: left;
-  width: 30%;
-}
-
-.message{ margin: 0 auto; padding: 0; float: left; width: 30%;}
-
 .message
 {
-  margin: 0 auto; padding: 0; float: left; width: 30%;
+  margin: 0 auto;
+  padding: 0;
+  float: left;
+  width: 30%;
 }
