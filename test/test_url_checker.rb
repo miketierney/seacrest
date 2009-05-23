@@ -43,10 +43,6 @@ class FakeHeader
     self
   end
 
-  def code
-    @code
-  end
-
 end
 
 
