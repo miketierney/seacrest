@@ -1,7 +1,7 @@
 # SEACREST SETTINGS
 #
 # If you are going to run your sitemap through a validator, set validate to true to add the necessary headers to your file
-validate: false
+validate: true
 #
 # Uncomment the line below if you would like to specify a priority for your pages
 # Options: 0.1 - 1.0
