@@ -4,7 +4,7 @@ class TestCSScrubber < Test::Unit::TestCase
   def setup
     @css = "#{ASSET_DIR}/csscrubber.css"
     @html = "#{ASSET_DIR}/csscrubber.html"
-    @scrubber = Seacrest::CSScrubber.new
+    @scrubber = Seacrest::CSScrubber.new @css
   end
 
   def test_asset_directory_exists # 'cause I created it, and I want to make sure that this actually works.  Will fail if the stuff doesn't exist.
@@ -58,17 +58,17 @@ class TestCSScrubber < Test::Unit::TestCase
     @scrubber.parse_css
     actual = @scrubber.declarations
     expected = {
-      'body' => ['csscrubber.css','1'],
-      'a:link' => ['csscrubber.css','7'],
-      'a:visited' => ['csscrubber.css','7'],
-      'a:hover' => ['csscrubber.css','13'],
-      'a:active' => ['csscrubber.css','13'],
-      'div.message' => ['csscrubber.css','18'],
-      '.info' => ['csscrubber.css','25'],
-      '.info.message' => ['csscrubber.css','32'],
-      'em' => ['csscrubber.css','32'],
-      '.ampersand' => ['csscrubber.css','32'],
-      '.message' => ['csscrubber.css','42']
+      'body' => ['csscrubber.css'],
+      'a:link' => ['csscrubber.css'],
+      'a:visited' => ['csscrubber.css'],
+      'a:hover' => ['csscrubber.css'],
+      'a:active' => ['csscrubber.css'],
+      'div.message' => ['csscrubber.css'],
+      '.info' => ['csscrubber.css'],
+      '.info.message' => ['csscrubber.css'],
+      'em' => ['csscrubber.css'],
+      '.ampersand' => ['csscrubber.css'],
+      '.message' => ['csscrubber.css']
     }
     assert_equal expected, actual
   end
