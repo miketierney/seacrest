@@ -30,7 +30,7 @@ None yet
 
 == INSTALL:
 
-*No installer yet ... will probably be a gem at some point.*
+* Make any necessary changes to the config/config.yml file
 
 == LICENSE:
 
