@@ -74,7 +74,7 @@ class TestUrlChecker < Test::Unit::TestCase
   end
 
   def test_looks_for_index_when_given_directory
-    assert Seacrest::UrlChecker.check('/test/assets/'), "Couldn't find index.html in #{Dir.pwd}"
+    assert Seacrest::UrlChecker.check('/test/assets/'), "Couldn't find index.html in #{Dir.pwd}/test/assets/"
   end
 
 end
