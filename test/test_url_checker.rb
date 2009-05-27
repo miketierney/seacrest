@@ -64,5 +64,13 @@ class TestUrlChecker < Test::Unit::TestCase
 
     assert Seacrest::UrlChecker.check('http://www.apple.com/back'), "Didn't get true back from check"
   end
+  
+  def test_true_on_internal_path
+    assert Seacrest::UrlChecker.check('/assets/csscrubber.html'), "Didn't get true back from check"
+  end
+  
+  def test_false_on_bad_internal_path
+    assert ! Seacrest::UrlChecker.check('/abbazabba/youremyonlyfriend.html'), "Didn't get false back from check"
+  end
 
 end

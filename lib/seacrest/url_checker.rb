@@ -6,6 +6,16 @@ module Seacrest
   class UrlChecker
 
     def self.check uri
+      if uri =~ /^http/i
+        check_external uri
+      else
+        check_internal uri
+      end
+    end
+    
+    private
+
+    def self.check_external uri
       address = URI.parse(uri)
 
       begin
@@ -13,7 +23,7 @@ module Seacrest
       rescue SocketError
         return false
       end
-      
+
       case response.header.code
       when '200'
         true
@@ -22,6 +32,10 @@ module Seacrest
       else
         false
       end
+    end
+    
+    def self.check_internal uri
+      
     end
 
   end
