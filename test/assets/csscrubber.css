@@ -45,3 +45,8 @@ div.message {
   float: left;
   width: 30%;
 }
+
+#call_to_action {
+  padding: 20px;
+  border: 1px solid #b4b4b4;
+}

@@ -19,13 +19,14 @@ end
 
 module Seacrest
   class CSScrubber
-    attr_accessor :declarations, :dup_declarations
+    attr_accessor :selectors, :dup_selectors, :all_selectors
     
     def initialize(file)
       @content = File.read file
       @file = file
-      @declarations = Hash.new
-      @dup_declarations = Hash.new
+      @selectors = Hash.new
+      @dup_selectors = Hash.new
+      @all_selectors = Array.new
     end
 
     # TODO: Refactor this code.
@@ -53,10 +54,14 @@ module Seacrest
       css = sac.parse(@content)
     
       css.rules.each do |rule|
-        @declarations["#{rule.selector.to_css}"] = [(File.basename @file)]
+        @selectors["#{rule.selector.to_css}"] = [(File.basename @file)]
       end
     end
 
+    # def self.add_dups(selector)
+    #   @all_selectors << selector
+    # end
+    # 
     def read_file file
       file_type = what_ext? file
       if file_type.css?
