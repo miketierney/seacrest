@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'rubygems'
 require 'sitemap_generator'
 
 class TestSitemapGenerator < Test::Unit::TestCase
