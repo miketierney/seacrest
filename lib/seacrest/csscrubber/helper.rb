@@ -1,4 +1,10 @@
+# $: << File.dirname(__FILE__)
+
+# require 'seacrest'
+# require 'seacrest/csscrubber'
+
 module CSS
+  # include Seacrest::CSScrubber
   class StyleSheet < CSS::SAC::DocumentHandler
     def end_selector(selectors)
       @rules += @current_rules
@@ -13,6 +19,9 @@ module CSS
       unique_rules = {}
       @rules.each do |rule|
         (unique_rules[rule.selector] ||= rule).properties += rule.properties
+        # unless rule.selector.nil?
+        #   Seacrest::CSScrubber.add_dups(rule.selector.to_css)
+        # end
       end
       @rules = unique_rules.values
       self

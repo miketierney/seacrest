@@ -1,6 +1,5 @@
 $: << File.dirname(__FILE__)
 
-require 'rubygems'
 require 'nokogiri'
 require 'seacrest/csscrubber'
 require 'seacrest/url_checker'
