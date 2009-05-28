@@ -8,7 +8,7 @@ class TestCSScrubber < Test::Unit::TestCase
   end
 
   def test_asset_directory_exists # 'cause I created it, and I want to make sure that this actually works.  Will fail if the stuff doesn't exist.
-    assert (File.exist? @html), "CSScrubber html file should exist."
+    assert File.exist?(@html), "CSScrubber html file should exist."
   end
 
   def test_should_detect_css_files
@@ -50,8 +50,8 @@ class TestCSScrubber < Test::Unit::TestCase
   end
   
   def test_reads_files
-    assert (@scrubber.read_file @css), "should be able to open the css file with no problems."
-    assert (@scrubber.read_file @html), "should be able to open the html file with no problems."
+    assert @scrubber.read_file(@css), "should be able to open the css file with no problems."
+    assert @scrubber.read_file(@html), "should be able to open the html file with no problems."
   end
   
   def test_selectors_hash_gets_populated
