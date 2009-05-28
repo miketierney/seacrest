@@ -35,15 +35,6 @@ module Seacrest
           # @unique_selectors[selector] = [File.basename(file), find_line_number(file, selector)]
           @unique_selectors[selector] = [File.basename(file)]
         end
-      
-        # TODO: REDUNDANT !!!  NEED TO REFACTOR !!!
-      
-        # sac = CSS::SAC::Parser.new
-        # css = sac.parse(@content)
-        
-        # css.rules.each do |rule|
-        #   @selectors["#{rule.selector.to_css}"] = [(File.basename file)]
-        # end
       end
       
       def find_line_number file, selector
