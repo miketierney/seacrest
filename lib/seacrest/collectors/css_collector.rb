@@ -22,12 +22,19 @@ module Seacrest
       
       def initialize
         @all_selectors = Array.new
+        @unique_selectors = Hash.new
       end
       
       def parse file
         parser = CSS::SAC::Parser.new(CSSHandler.new)
         css_content = parser.parse(File.read(file))
-        all_selectors = css_content.selectors
+        @all_selectors = css_content.selectors
+
+        @all_selectors.each do |selector|
+          next if !@unique_selectors[selector].nil?
+          # @unique_selectors[selector] = [File.basename(file), find_line_number(file, selector)]
+          @unique_selectors[selector] = [File.basename(file)]
+        end
       
         # TODO: REDUNDANT !!!  NEED TO REFACTOR !!!
       
@@ -37,6 +44,10 @@ module Seacrest
         # css.rules.each do |rule|
         #   @selectors["#{rule.selector.to_css}"] = [(File.basename file)]
         # end
+      end
+      
+      def find_line_number file, selector
+        
       end
     end
   end

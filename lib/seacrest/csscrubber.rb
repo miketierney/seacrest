@@ -43,6 +43,8 @@ module Seacrest
       css.parse @file
       
       @all_selectors = css.all_selectors
+      @selectors = css.unique_selectors
+      
       # parser = CSS::SAC::Parser.new(Collectors::CSSHandler.new)
       # css_content = parser.parse(File.read(@file))
       # @all_selectors = css_content.selectors

@@ -53,32 +53,4 @@ class TestCSScrubber < Test::Unit::TestCase
     assert @scrubber.read_file(@css), "should be able to open the css file with no problems."
     assert @scrubber.read_file(@html), "should be able to open the html file with no problems."
   end
-  
-  def test_selectors_hash_gets_populated
-    @scrubber.parse_file
-    actual = @scrubber.selectors
-    expected = {
-      'body' => ['csscrubber.css'],
-      'a:link' => ['csscrubber.css'],
-      'a:visited' => ['csscrubber.css'],
-      'a:hover' => ['csscrubber.css'],
-      'a:active' => ['csscrubber.css'],
-      'div.message' => ['csscrubber.css'],
-      '.info' => ['csscrubber.css'],
-      '.info.message' => ['csscrubber.css'],
-      'em' => ['csscrubber.css'],
-      '.ampersand' => ['csscrubber.css'],
-      '.message' => ['csscrubber.css'],
-      '#call_to_action' => ['csscrubber.css']
-    }
-    assert_equal expected, actual
-  end
-
-  # This is kind of redundant with the test over in collectors/test_css, but I want to make sure that my modules are talking to each other ...
-  def test_all_selectors
-    @scrubber.parse_file
-    actual = @scrubber.all_selectors
-    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action']
-    assert_equal expected, actual
-  end
 end
