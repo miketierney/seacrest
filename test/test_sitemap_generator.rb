@@ -1,10 +1,9 @@
 require 'test/unit'
-require 'rubygems'
 require 'sitemap_generator'
 
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
-    @sg = SitemapGenerator.new 'test/traverse'
+    @sg = SitemapGenerator.new
     Dir.mkdir 'test/traverse'
     Dir.mkdir 'test/traverse/again'
     first = File.new 'test/traverse/first.html', 'w'; first.close

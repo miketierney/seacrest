@@ -1,23 +1,24 @@
 require 'find'
 require 'fileutils'
+require 'rubygems'
 require 'nokogiri'
 
 class SitemapGenerator
-  attr_accessor :sitemap
+  attr_accessor :pages, :sitemap
   
   CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml"))
   
-  def initialize origin
-    traverse origin
-    build_sitemap @pages
-    puts @sitemap
-    
-  end
+  # def initialize origin
+  #   traverse origin
+  #   build_sitemap @pages
+  #   # puts @sitemap
+  #   
+  # end
   
-  def traverse origin = './'
+  def traverse origin
     @pages = []
-    Find.find './' do |path|
-      path =~ /^.\/(.*)/
+    Find.find origin do |path|
+      path =~ /^#{origin}\/(.*)/
       unless File.directory? path
         @pages << $1 unless $1 == 'sitemap.xml'
       end
