@@ -3,7 +3,7 @@ require 'fileutils'
 require 'nokogiri'
 
 class SitemapGenerator
-  attr_accessor :pages, :sitemap
+  attr_accessor :sitemap
   
   CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml"))
   
@@ -14,10 +14,10 @@ class SitemapGenerator
     
   end
   
-  def traverse origin
+  def traverse origin = './'
     @pages = []
-    Find.find origin do |path|
-      path =~ /^#{origin}\/(.*)/
+    Find.find './' do |path|
+      path =~ /^.\/(.*)/
       unless File.directory? path
         @pages << $1 unless $1 == 'sitemap.xml'
       end
@@ -25,18 +25,47 @@ class SitemapGenerator
     @pages
   end
   
-  def build_sitemap pages
-    builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
-      urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') {
-        pages.each do |page|
-        url {
-          loc page
-          priority CONFIG['priority'] if CONFIG['priority']
-          changefreq CONFIG['changefreq'] if CONFIG['changefreq']
-        }
-        end
-      }
+  def determine_existing_pages
+    @existing_pages = {}
+    doc = Nokogiri::XML(open('sitemap.xml'))
+    doc.xpath('/urlset/url/loc').each do |location|
+      @existing_pages[location.text.to_sym] = true
     end
-    @sitemap = builder.to_xml
   end
+  
+  def build_sitemap
+    # if File.exists?('sitemap.xml')
+      doc = Nokogiri::XML(open('sitemap.xml'))
+      doc.root = Nokogiri::XML::Node.new 'urlset', doc
+    # else
+    #   doc = Nokogiri::XML.new
+    # end
+    
+    @pages.each do |page|
+      # next if @existing_pages.include?(page.to_sym)
+      url = Nokogiri::XML::Node.new('url', doc)
+      page.each do |key, value|
+        loc = Nokogiri::XML::Node.new('loc', doc)
+        loc.content = key.to_s
+        url << loc
+      end
+      doc.root << url
+    end
+  end
+  
+  # def something
+  #   node = Nokogiri::XML::Node.new('existing_sitemap', @sitemap)
+  #   builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
+  #     urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') {
+  #       @new_pages.each do |page|
+  #       url {
+  #         loc page
+  #         priority CONFIG['priority'] if CONFIG['priority']
+  #         changefreq CONFIG['changefreq'] if CONFIG['changefreq']
+  #       }
+  #       end
+  #     }
+  #   end
+  #   builder.to_xml
+  # end
 end
