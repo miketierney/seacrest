@@ -1,26 +1,27 @@
 require 'csspool'
-require 'seacrest/csscrubber/helper'
+require 'seacrest/collectors'
+require 'seacrest/csscrubber/csscrubber_helper'
 
 # List of things to tend to:
 #
 # Add the ability to ignore known frameworks (960.gs, blueprint.css, etc) or the ability to include these if they are ignored by default
 #
 
-class String
-  # just because I'm going to be typing this a *lot* otherwise... 
-  def css?
-    self == "css"
-  end
-  
-  def html?
-    self == "html"
-  end
-end
-
 module Seacrest
+  class CSSHandler < CSS::SAC::DocumentHandler
+    attr_accessor :selectors
+    def initialize
+      @selectors = Array.new
+    end
+    
+    def start_selector(selectors)
+      selectors.each{ |x| @selectors << x.to_css }
+    end
+  end
+
   class CSScrubber
     attr_accessor :selectors, :dup_selectors, :all_selectors
-    
+  
     def initialize(file)
       @content = File.read file
       @file = file
@@ -50,9 +51,15 @@ module Seacrest
     end
 
     def parse_css
+      parser = CSS::SAC::Parser.new(CSSHandler.new)
+      css_content = parser.parse(File.read(@file))
+      @all_selectors = css_content.selectors
+      
+      # TODO: REDUNDANT !!!  NEED TO REFACTOR !!!
+      
       sac = CSS::SAC::Parser.new
       css = sac.parse(@content)
-    
+        
       css.rules.each do |rule|
         @selectors["#{rule.selector.to_css}"] = [(File.basename @file)]
       end
