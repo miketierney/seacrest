@@ -55,7 +55,7 @@ class TestCSScrubber < Test::Unit::TestCase
   end
   
   def test_selectors_hash_gets_populated
-    @scrubber.parse_css
+    @scrubber.parse_file
     actual = @scrubber.selectors
     expected = {
       'body' => ['csscrubber.css'],
@@ -76,7 +76,7 @@ class TestCSScrubber < Test::Unit::TestCase
 
   # This is kind of redundant with the test over in collectors/test_css, but I want to make sure that my modules are talking to each other ...
   def test_all_selectors
-    @scrubber.parse_css
+    @scrubber.parse_file
     actual = @scrubber.all_selectors
     expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action']
     assert_equal expected, actual

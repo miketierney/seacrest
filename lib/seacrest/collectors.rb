@@ -1,4 +1,4 @@
-require 'seacrest/collectors/css'
+require 'seacrest/collectors/css_collector'
 
 module Seacrest
   module Collectors

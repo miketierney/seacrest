@@ -16,9 +16,13 @@ module Seacrest
       end
     end
     
-    class CSS
+    class CSSCollector
       
-      attr_accessor :unique_selectors, :dup_selectors
+      attr_accessor :unique_selectors, :dup_selectors, :all_selectors
+      
+      def initialize
+        @all_selectors = Array.new
+      end
       
       def parse file
         parser = CSS::SAC::Parser.new(CSSHandler.new)
@@ -27,12 +31,12 @@ module Seacrest
       
         # TODO: REDUNDANT !!!  NEED TO REFACTOR !!!
       
-        sac = CSS::SAC::Parser.new
-        css = sac.parse(@content)
+        # sac = CSS::SAC::Parser.new
+        # css = sac.parse(@content)
         
-        css.rules.each do |rule|
-          @selectors["#{rule.selector.to_css}"] = [(File.basename file)]
-        end
+        # css.rules.each do |rule|
+        #   @selectors["#{rule.selector.to_css}"] = [(File.basename file)]
+        # end
       end
     end
   end
