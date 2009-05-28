@@ -5,6 +5,7 @@ require 'test/unit'
 require 'seacrest'
 require 'seacrest/url_checker'
 require 'seacrest/csscrubber'
+require 'seacrest/collectors'
 
 ASSET_DIR = "#{File.dirname(__FILE__)}/assets"
 
