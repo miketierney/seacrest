@@ -39,7 +39,7 @@ module Seacrest
     end
 
     def parse_css
-      parser = CSS::SAC::Parser.new(Collectors::CSSCollector.new)
+      parser = CSS::SAC::Parser.new(Collectors::CSSHandler.new)
       css_content = parser.parse(File.read(@file))
       @all_selectors = css_content.selectors
       

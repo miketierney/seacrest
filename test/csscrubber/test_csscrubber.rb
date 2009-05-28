@@ -74,7 +74,7 @@ class TestCSScrubber < Test::Unit::TestCase
     assert_equal expected, actual
   end
 
-  # This is kind of redundant with the test over in test_css_collector, but I want to make sure that my modules are talking to each other ...
+  # This is kind of redundant with the test over in collectors/test_css, but I want to make sure that my modules are talking to each other ...
   def test_all_selectors
     @scrubber.parse_css
     actual = @scrubber.all_selectors
