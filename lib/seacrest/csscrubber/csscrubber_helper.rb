@@ -1,3 +1,5 @@
+require 'seacrest/collectors'
+
 # $: << File.dirname(__FILE__)
 
 # require 'seacrest'
