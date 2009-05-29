@@ -36,10 +36,6 @@ module Seacrest
           @unique_selectors[selector] = [File.basename(file)]
         end
       end
-      
-      def find_line_number file, selector
-        
-      end
     end
   end
 end
