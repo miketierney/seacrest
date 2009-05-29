@@ -50,3 +50,8 @@ div.message {
   padding: 20px;
   border: 1px solid #b4b4b4;
 }
+
+/* Being sneaky and making a "problem" that would be resolved by a cleaner stylesheet! */
+.info {
+  text-align: left;
+}
