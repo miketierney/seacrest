@@ -2,7 +2,6 @@ require 'find'
 require 'fileutils'
 require 'rubygems'
 require 'nokogiri'
-require 'pp'
 
 class SitemapGenerator
   attr_accessor :pages, :sitemap, :existing_pages
