@@ -9,7 +9,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
     second = File.new 'test/traverse/again/second.html', 'w'; second.close
     sitemap = File.new 'test/traverse/sitemap.xml', 'w'
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
-      urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') {
+      urlset {
         url {
           loc 'first.html'
           priority '0.5'
@@ -41,11 +41,12 @@ class TestSitemapGenerator < Test::Unit::TestCase
   
   def test_stores_existing_pages
     expected = {
-      :loc => 'first.html',
-      :priority => '0.5',
-      :changefreq => 'weekly'
+      'first.html' => {
+        :priority => '0.5',
+        :changefreq => 'weekly'
+      }
     }
-    assert_equal expected, @sg.existing_pages
+    assert_equal expected, @sg.existing_pages['first.html']
   end
   
   def test_existing_pages_stay_put
