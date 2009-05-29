@@ -45,24 +45,8 @@ module Seacrest
       @all_selectors = css.all_selectors
       @selectors = css.unique_selectors
       
-      # parser = CSS::SAC::Parser.new(Collectors::CSSHandler.new)
-      # css_content = parser.parse(File.read(@file))
-      # @all_selectors = css_content.selectors
-      # 
-      # # TODO: REDUNDANT !!!  NEED TO REFACTOR !!!
-      # 
-      # sac = CSS::SAC::Parser.new
-      # css = sac.parse(@content)
-      #   
-      # css.rules.each do |rule|
-      #   @selectors["#{rule.selector.to_css}"] = [(File.basename @file)]
-      # end
     end
 
-    # def self.add_dups(selector)
-    #   @all_selectors << selector
-    # end
-    # 
     def read_file file
       file_type = what_ext? file
       if file_type.css?

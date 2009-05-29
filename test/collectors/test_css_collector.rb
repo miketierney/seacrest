@@ -12,7 +12,7 @@ class TestCSS < Test::Unit::TestCase
   
   def test_start_selector
     actual = @parser.parse(File.read("#{ASSET_DIR}/csscrubber.css"))
-    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action']
+    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual.selectors
   end
   
@@ -51,13 +51,13 @@ class TestCSS < Test::Unit::TestCase
   def test_dup_selectors_hash_gets_populated
     actual = @my_css.dup_selectors
     # expected = {'.info' => [ ['csscrubber.css', 24], ['csscrubber.css', 37] ] }
-    expected = {'.info' => [ ['csscrubber.css'], ['csscrubber.css'] ] }
+    expected = {'.info' => [ ['csscrubber.css'], ['csscrubber.css'], ['csscrubber.css'] ] }
     assert_equal expected, actual
   end
-  
+
   def test_all_selectors
     actual = @my_css.all_selectors
-    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action']
+    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual
   end
   
