@@ -3,7 +3,6 @@ require 'sitemap_generator'
 
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
-    @sg = SitemapGenerator.new
     Dir.mkdir 'test/traverse'
     Dir.mkdir 'test/traverse/again'
     first = File.new 'test/traverse/first.html', 'w'; first.close
@@ -18,6 +17,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
     end
     sitemap.puts builder.to_xml
     sitemap.close
+    @sg = SitemapGenerator.new 'test/traverse'
   end
   
   def teardown
@@ -28,13 +28,13 @@ class TestSitemapGenerator < Test::Unit::TestCase
     expected = [
       'first.html',
       'again/second.html'
-      ]
-    assert_equal expected, @sg.traverse('test/traverse')
+    ]
+    assert_equal expected, @sg.pages
+    
   end
   
   def test_sitemap_xml_file_gets_ignored
-    pages = @sg.traverse('test/traverse')
-    assert_not_equal 'sitemap.xml', pages.detect { |p| p == 'sitemap.xml' }
+    assert_equal false, @sg.pages.include?('sitemap.xml')
   end
   
   def test_new_pages_get_added_to_sitemap
