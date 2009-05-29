@@ -2,54 +2,57 @@ require 'find'
 require 'fileutils'
 require 'rubygems'
 require 'nokogiri'
+require 'pp'
 
 class SitemapGenerator
-  attr_accessor :pages, :sitemap
+  attr_accessor :pages, :sitemap, :existing_pages
   
   CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml"))
   
   def initialize origin
-    traverse origin
-  #   build_sitemap @pages
-  #   # puts @sitemap
+    @origin = origin
+    traverse
+    build_sitemap
   end
   
-  def traverse origin
+  def traverse
     @pages = []
-    Find.find origin do |path|
-      path =~ /^#{origin}\/(.*)/
+    Find.find @origin do |path|
+      path =~ /^#{@origin}\/(.*)/
       unless File.directory? path
         @pages << $1 unless $1 == 'sitemap.xml'
       end
     end
   end
   
-  def determine_existing_pages
+  def store_existing_pages
     @existing_pages = {}
-    doc = Nokogiri::XML(open('sitemap.xml'))
-    doc.xpath('/urlset/url/loc').each do |location|
-      @existing_pages[location.text.to_sym] = true
+    @sitemap.xpath('/urlset/url/loc').each do |loc|
+      @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
+        @existing_pages[loc.text] = {}
+        @existing_pages[loc.text][node.name.to_sym] = node.text
+      end
     end
   end
   
   def build_sitemap
-    if File.exists?('sitemap.xml')
-      doc = Nokogiri::XML(open('sitemap.xml'))
-      urlset = Nokogiri::XML::Node.new 'urlset', doc
+    if File.exists?(File.join(@origin, 'sitemap.xml'))
+      @sitemap = Nokogiri::XML(open(File.join(@origin, 'sitemap.xml')))
+      store_existing_pages
+      urlset = Nokogiri::XML::Node.new 'urlset', @sitemap
     else
-      doc = Nokogiri::XML.new
+      @sitemap = Nokogiri::XML.new
     end
     
     @pages.each do |page|
       next if @existing_pages.include?(page.to_sym)
-      url = Nokogiri::XML::Node.new('url', doc)
+      url = Nokogiri::XML::Node.new('url', @sitemap)
       page.each do |key, value|
-        loc = Nokogiri::XML::Node.new('loc', doc)
+        loc = Nokogiri::XML::Node.new('loc', @sitemap)
         loc.content = key.to_s
         url << loc
       end
       urlset << url
     end
-    doc << urlset
   end
 end

@@ -10,7 +10,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
     sitemap = File.new 'test/traverse/sitemap.xml', 'w'
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
       urlset {
-        url {
+        url(:encoding => 'UTF-8') {
           loc 'first.html'
           priority '0.5'
           changefreq 'weekly'
@@ -46,7 +46,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
         :changefreq => 'weekly'
       }
     }
-    assert_equal expected, @sg.existing_pages['first.html']
+    assert_equal expected, @sg.existing_pages
   end
   
   def test_existing_pages_stay_put
