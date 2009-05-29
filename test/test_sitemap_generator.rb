@@ -12,6 +12,8 @@ class TestSitemapGenerator < Test::Unit::TestCase
       urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') {
         url {
           loc 'first.html'
+          priority '0.5'
+          changefreq 'weekly'
         }
       }
     end
@@ -37,12 +39,21 @@ class TestSitemapGenerator < Test::Unit::TestCase
     assert_equal false, @sg.pages.include?('sitemap.xml')
   end
   
-  def test_new_pages_get_added_to_sitemap
-    assert_match /(<loc>again\/second.html<\/loc>)/, @sitemap
+  def test_stores_existing_pages
+    expected = {
+      :loc => 'first.html',
+      :priority => '0.5',
+      :changefreq => 'weekly'
+    }
+    assert_equal expected, @sg.existing_pages
   end
   
   def test_existing_pages_stay_put
     assert_match /(<priority>1.0<\/priority>)/, @sitemap
+  end
+  
+  def test_new_pages_get_added_to_sitemap
+    assert_match /(<loc>again\/second.html<\/loc>)/, @sitemap
   end
   
   def test_validation_option_adds_extra_headers
