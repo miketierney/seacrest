@@ -7,7 +7,7 @@ module Seacrest
     def initialize
       # ...
     end
-    
+
     def handles? file
       File.extname(file) == ".html"
     end

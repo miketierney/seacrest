@@ -7,17 +7,17 @@ module Seacrest
     # I'd love for this to just be class CSS, but because of the CSS::SAC usage, I run into naming issues, so for now I've got this named differently in order to prevent that.
     #
     attr_accessor :unique_selectors, :dup_selectors, :all_selectors
-    
+
     def initialize
       @all_selectors = Array.new
       @unique_selectors = Hash.new
       @dup_selectors = Hash.new
     end
-    
+
     # TODO: Refactor this for easier reading and more efficient code handling
     def process file
       filename = File.basename(file)
-      
+
       parser = CSS::SAC::Parser.new(CSSHandler.new)
       css_content = parser.parse(File.read(file))
       @all_selectors = css_content.selectors
@@ -32,19 +32,19 @@ module Seacrest
             @dup_selectors[selector] = [@unique_selectors[selector],[filename]]
           else
             # once there's a key in the hash, just add to that key.
-            @dup_selectors[selector] += [[filename]] # this seems silly to me ... 
+            @dup_selectors[selector] += [[filename]] # this seems silly to me ...
           end
         end
       end
     end
     # HOLY CRAP THAT'S A LOT OF "END"s!!!
-    
+
     def handles? file
       File.extname(file) == ".css" # if it's that extension, then it handles it.  Otherwise, it doesn't.
     end
-  
+
   end
-  
+
   class CSSHandler < CSS::SAC::DocumentHandler
 
     attr_accessor :selectors
