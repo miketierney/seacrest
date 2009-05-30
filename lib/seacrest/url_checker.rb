@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require 'nokogiri'
 require 'timeout'
 
 module Seacrest
@@ -48,6 +49,14 @@ module Seacrest
         # We know the file exists and it wasn't a folder so return true
         true
       end
+    end
+
+    def self.get_links file
+      html = Nokogiri::XML(open(file))
+      links = Hash.new []
+
+      html.css('a').each { |link| links[link['href']] += [link.line]}
+      links
     end
 
   end

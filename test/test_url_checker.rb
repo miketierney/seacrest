@@ -78,19 +78,8 @@ class TestUrlChecker < Test::Unit::TestCase
   end
 
   def test_gets_links_and_lines_from_html
-    file =  StringIO.new(%(<html>
-      <head>
-        <title>test test</title>
-      </head>
-      <body>
-        <div>adfsadf<a href="http://www.onehub.com">onehub</a></div>
-        <a href="http://www.apple.com">apple</a>
-        <a href="http://www.apple.com">apple</a>
-      </body>
-    </html>))
-
+    file = './test/assets/index.html'
     expected = {'http://www.onehub.com' => [6], 'http://www.apple.com' => [7, 8]}
-
     actual = Seacrest::UrlChecker.get_links file
 
     assert_equal expected, actual
