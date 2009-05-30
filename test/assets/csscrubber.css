@@ -4,6 +4,10 @@ body {
   color: #444;
 }
 
+p {
+  font-size: 1.4em;
+}
+
 a:link, a:visited {
   color: #9cc;
   font-weight: bold;
@@ -16,9 +20,10 @@ a:hover, a:active { color: #fff; background-color: #9cc; }
 
 div.message {
   margin: 0 auto;
-  padding: 0;
-  float: left;
-  width: 30%;
+  padding: 10px;
+  width: 80%;
+  text-align: center;
+  font-size: 12px;
 }
 
 .info {
@@ -41,8 +46,7 @@ div.message {
 .message
 {
   margin: 0 auto;
-  padding: 0;
-  float: left;
+  padding: 20px;
   width: 30%;
 }
 
@@ -51,7 +55,7 @@ div.message {
   border: 1px solid #b4b4b4;
 }
 
-/* Being sneaky and making a "problem" that would be resolved by a cleaner stylesheet! */
+/* Being sneaky and making a "problem" that would be resolved by a cleaner stylesheet!  Also, makes sure that we've got three identical instances of the same class throughout the stylesheet for duplicates purposes. */
 .info {
   text-align: left;
 }

@@ -15,7 +15,7 @@ class TestCSSCollector < Test::Unit::TestCase
   
   def test_start_selector
     actual = @parser.parse(File.read(@css_file))
-    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
+    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual.selectors
   end
 
@@ -33,18 +33,20 @@ class TestCSSCollector < Test::Unit::TestCase
     actual = @my_css.unique_selectors
     expected = {
       # 'body' => ['csscrubber.css', 1],
-      # 'a:link' => ['csscrubber.css', 7],
-      # 'a:visited' => ['csscrubber.css', 7],
-      # 'a:hover' => ['csscrubber.css', 15],
-      # 'a:active' => ['csscrubber.css', 15],
-      # 'div.message' => ['csscrubber.css', 17],
-      # '.info' => ['csscrubber.css', 24],
-      # '.info.message' => ['csscrubber.css', 31],
-      # 'em' => ['csscrubber.css', 31],
-      # '.ampersand' => ['csscrubber.css', 31],
-      # '.message' => ['csscrubber.css', 41],
-      # '#call_to_action' => ['csscrubber.css', 49]
+      # 'p' => ['csscrubber.css', 7],
+      # 'a:link' => ['csscrubber.css', 11],
+      # 'a:visited' => ['csscrubber.css', 11],
+      # 'a:hover' => ['csscrubber.css', 19],
+      # 'a:active' => ['csscrubber.css', 19],
+      # 'div.message' => ['csscrubber.css', 21],
+      # '.info' => ['csscrubber.css', 29],
+      # '.info.message' => ['csscrubber.css', 36],
+      # 'em' => ['csscrubber.css', 36],
+      # '.ampersand' => ['csscrubber.css', 36],
+      # '.message' => ['csscrubber.css', 46],
+      # '#call_to_action' => ['csscrubber.css', 53]
       'body' => ['csscrubber.css'],
+      'p' => ['csscrubber.css'],
       'a:link' => ['csscrubber.css'],
       'a:visited' => ['csscrubber.css'],
       'a:hover' => ['csscrubber.css'],
@@ -70,7 +72,7 @@ class TestCSSCollector < Test::Unit::TestCase
 
   def test_all_selectors
     actual = @my_css.all_selectors
-    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
+    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual
   end
   
