@@ -32,7 +32,6 @@ class TestSitemapGenerator < Test::Unit::TestCase
       'again/second.html'
     ]
     assert_equal expected, @sg.pages
-
   end
 
   def test_sitemap_xml_file_gets_ignored
@@ -50,7 +49,16 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
 
   def test_existing_pages_stay_put
-    assert_match /(<priority>1.0<\/priority>)/, @sg.sitemap
+    expected = [
+      'first.html',
+      '1.0',
+      'daily'
+    ]
+    actual = []
+    @sg.sitemap.xpath('/urlset/url[1]/*').each do |node|
+      actual << node.text
+    end
+    assert_equal expected, actual
   end
 
   def test_new_pages_get_added_to_sitemap
