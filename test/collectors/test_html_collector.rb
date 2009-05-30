@@ -1,8 +1,9 @@
 require 'helper'
+include Collectors
 
 class TestHTMLCollector < Test::Unit::TestCase
   def setup
-    @my_html = Seacrest::Collectors::HTMLCollector.new
+    @my_html = HTMLCollector.new
     @html_file = "#{ASSET_DIR}/csscrubber.html"
   end
   
