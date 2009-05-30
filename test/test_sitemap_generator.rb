@@ -1,24 +1,25 @@
 require 'test/unit'
-require 'rubygems'
 require 'sitemap_generator'
 
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
-    @sg = SitemapGenerator.new 'test/traverse'
     Dir.mkdir 'test/traverse'
     Dir.mkdir 'test/traverse/again'
     first = File.new 'test/traverse/first.html', 'w'; first.close
     second = File.new 'test/traverse/again/second.html', 'w'; second.close
     sitemap = File.new 'test/traverse/sitemap.xml', 'w'
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
-      urlset(:xmlns => 'http://www.sitemaps.org/schemas/sitemap/0.9') {
-        url {
+      urlset {
+        url(:encoding => 'UTF-8') {
           loc 'first.html'
+          priority '0.5'
+          changefreq 'weekly'
         }
       }
     end
     sitemap.puts builder.to_xml
     sitemap.close
+    @sg = SitemapGenerator.new 'test/traverse'
   end
   
   def teardown
@@ -29,21 +30,31 @@ class TestSitemapGenerator < Test::Unit::TestCase
     expected = [
       'first.html',
       'again/second.html'
-      ]
-    assert_equal expected, @sg.traverse('test/traverse')
+    ]
+    assert_equal expected, @sg.pages
+    
   end
   
   def test_sitemap_xml_file_gets_ignored
-    pages = @sg.traverse('test/traverse')
-    assert_not_equal 'sitemap.xml', pages.detect { |p| p == 'sitemap.xml' }
+    assert_equal false, @sg.pages.include?('sitemap.xml')
   end
   
-  def test_new_pages_get_added_to_sitemap
-    assert_match /(<loc>again\/second.html<\/loc>)/, @sitemap
+  def test_stores_existing_pages
+    expected = {
+      'first.html' => {
+        :priority => '0.5',
+        :changefreq => 'weekly'
+      }
+    }
+    assert_equal expected, @sg.existing_pages
   end
   
   def test_existing_pages_stay_put
     assert_match /(<priority>1.0<\/priority>)/, @sitemap
+  end
+  
+  def test_new_pages_get_added_to_sitemap
+    assert_match /(<loc>again\/second.html<\/loc>)/, @sitemap
   end
   
   def test_validation_option_adds_extra_headers
