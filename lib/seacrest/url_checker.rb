@@ -1,5 +1,6 @@
 require 'net/http'
 require 'uri'
+require 'nokogiri'
 require 'timeout'
 
 module Seacrest
@@ -30,7 +31,7 @@ module Seacrest
       when '200'
         true
       when /^3/
-        UrlChecker.check response.header['Location']
+        UrlChecker.check_external response.header['Location']
       else
         false
       end
@@ -45,9 +46,17 @@ module Seacrest
         if File.directory?(location)
           return File.exists?("#{location}/index.html")
         end
-
+        # We know the file exists and it wasn't a folder so return true
         true
       end
+    end
+
+    def self.get_links file
+      html = Nokogiri::XML(open(file))
+      links = Hash.new []
+
+      html.css('a').each { |link| links[link['href']] += [link.line]}
+      links
     end
 
   end
