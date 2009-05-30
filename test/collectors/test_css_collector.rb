@@ -1,37 +1,50 @@
 require 'helper'
 
-class TestCSS < Test::Unit::TestCase
+class TestCSSCollector < Test::Unit::TestCase
   def setup
+    @css_file = "#{ASSET_DIR}/csscrubber.css"
     # Testing the Document Handler
-    @parser = CSS::SAC::Parser.new(Seacrest::Collectors::CSSHandler.new)
+    @parser = CSS::SAC::Parser.new(Collectors::CSSHandler.new)
     
     # Testing the Collector
-    @my_css = Seacrest::Collectors::CSSCollector.new
-    @my_css.parse "#{ASSET_DIR}/csscrubber.css"
+    @my_css = Collectors::CSSCollector.new
+    @my_css.process @css_file
   end
   
   def test_start_selector
-    actual = @parser.parse(File.read("#{ASSET_DIR}/csscrubber.css"))
-    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
+    actual = @parser.parse(File.read(@css_file))
+    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual.selectors
+  end
+
+  def test_handles_css
+    new_css = Collectors::CSSCollector.new
+    assert new_css.handles?(@css_file), "Should be return a 'true' response to handling a CSS file"
+  end
+
+  def test_doesnt_handle_html
+    html = Collectors::CSSCollector.new
+    assert ! html.handles?("#{ASSET_DIR}/csscrubber.html"), "Should be return a 'false' response to handling any other file"
   end
   
   def test_unique_selectors_hash_gets_populated
     actual = @my_css.unique_selectors
     expected = {
       # 'body' => ['csscrubber.css', 1],
-      # 'a:link' => ['csscrubber.css', 7],
-      # 'a:visited' => ['csscrubber.css', 7],
-      # 'a:hover' => ['csscrubber.css', 15],
-      # 'a:active' => ['csscrubber.css', 15],
-      # 'div.message' => ['csscrubber.css', 17],
-      # '.info' => ['csscrubber.css', 24],
-      # '.info.message' => ['csscrubber.css', 31],
-      # 'em' => ['csscrubber.css', 31],
-      # '.ampersand' => ['csscrubber.css', 31],
-      # '.message' => ['csscrubber.css', 41],
-      # '#call_to_action' => ['csscrubber.css', 49]
+      # 'p' => ['csscrubber.css', 7],
+      # 'a:link' => ['csscrubber.css', 11],
+      # 'a:visited' => ['csscrubber.css', 11],
+      # 'a:hover' => ['csscrubber.css', 19],
+      # 'a:active' => ['csscrubber.css', 19],
+      # 'div.message' => ['csscrubber.css', 21],
+      # '.info' => ['csscrubber.css', 29],
+      # '.info.message' => ['csscrubber.css', 36],
+      # 'em' => ['csscrubber.css', 36],
+      # '.ampersand' => ['csscrubber.css', 36],
+      # '.message' => ['csscrubber.css', 46],
+      # '#call_to_action' => ['csscrubber.css', 53]
       'body' => ['csscrubber.css'],
+      'p' => ['csscrubber.css'],
       'a:link' => ['csscrubber.css'],
       'a:visited' => ['csscrubber.css'],
       'a:hover' => ['csscrubber.css'],
@@ -57,7 +70,7 @@ class TestCSS < Test::Unit::TestCase
 
   def test_all_selectors
     actual = @my_css.all_selectors
-    expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
+    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual
   end
   

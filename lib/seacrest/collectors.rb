@@ -1,9 +1,17 @@
 require 'seacrest/collectors/css_collector'
+require 'seacrest/collectors/html_collector'
 
 module Seacrest
-  module Collectors
-    # class Base
-    #   # ...
-    # end
+  class Collectors
+    def initialize
+      # ...
+    end
+
+    def can_handle? file
+      filetype = File.extname(file).gsub('.','').upcase
+      filetype = filetype == "HTM" ? "HTML" : filetype
+
+      Seacrest.const_defined? "#{filetype}Collector"
+    end
   end
 end

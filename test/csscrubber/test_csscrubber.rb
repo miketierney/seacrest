@@ -10,47 +10,12 @@ class TestCSScrubber < Test::Unit::TestCase
   def test_asset_directory_exists # 'cause I created it, and I want to make sure that this actually works.  Will fail if the stuff doesn't exist.
     assert File.exist?(@html), "CSScrubber html file should exist."
   end
+  
+  def test_should_warn_if_file_doesnt_exist
+    new_scrubber = CSScrubber.new "massive_fail.html"
 
-  def test_should_detect_css_files
-    actual = @scrubber.what_ext? @css
-    expected = "css"
-    assert_equal expected, actual
-  end
-  
-  def test_should_detect_html_files
-    actual = @scrubber.what_ext? @html
-    expected = "html"
-    assert_equal expected, actual
-  end
-  
-  def test_should_warn_on_all_other_files
-    actual = @scrubber.what_ext? File.dirname(__FILE__)
-    expected = "The file you supplied, #{File.dirname(__FILE__)}, is not a valid HTML or CSS file.  Please enter another file."
-    assert_equal expected, actual
-  end
-  
-  def test_should_warn_on_exceptions
-    actual = @scrubber.what_ext? "massive_fail.html"
-    expected = "The file you supplied, massive_fail.html, is not a valid file; it either may not exist, or it may have been a directory."
-    assert_equal expected, actual
-  end
-  
-  def test_css_eh
-    css = File.extname(@css).gsub('.','')
-    html = File.extname(@html).gsub('.','')
-    assert css.css?, "Should return true, since it's a CSS file"
-    assert ! html.css?, "Should return false, since it's an HTML file"
-  end
-  
-  def test_html_eh
-    css = File.extname(@css).gsub('.','')
-    html = File.extname(@html).gsub('.','')
-    assert ! css.html?, "Should return false, since it's a CSS file"
-    assert html.html?, "Should return true, since it's an HTML file"
-  end
-  
-  def test_reads_files
-    assert @scrubber.read_file(@css), "should be able to open the css file with no problems."
-    assert @scrubber.read_file(@html), "should be able to open the html file with no problems."
+    assert_raise RuntimeError do
+      new_scrubber.process_file
+    end
   end
 end
