@@ -13,8 +13,9 @@ class TestCSScrubber < Test::Unit::TestCase
   
   def test_should_warn_if_file_doesnt_exist
     new_scrubber = CSScrubber.new "massive_fail.html"
-    actual = new_scrubber.process_file
-    expected = "The file you supplied, massive_fail.html, is not a valid file; it either may not exist, or it may have been a directory."
-    assert_equal expected, actual
+
+    assert_raise RuntimeError do
+      new_scrubber.process_file
+    end
   end
 end

@@ -13,17 +13,16 @@ module Seacrest
 
     def process_file
       # TODO: feels like I'm using the rescue statement as a flow-control mechanism... don't like this.
-      begin
-        if Collectors.can_handle? @file
+      # begin
+      raise "The file you supplied, #{File.basename(@file)}, is not a valid file; it either may not exist, or it may have been a directory." unless File.exist?(@file)
 
-          css = Collectors::CSSCollector.new
-          css.process @file
+      if Collectors.can_handle? @file
 
-          @all_selectors = css.all_selectors
-          @selectors = css.unique_selectors
-        end
-      rescue
-        "The file you supplied, #{File.basename(@file)}, is not a valid file; it either may not exist, or it may have been a directory."
+        css = Collectors::CSSCollector.new
+        css.process @file
+
+        @all_selectors = css.all_selectors
+        @selectors = css.unique_selectors
       end
     end
 
