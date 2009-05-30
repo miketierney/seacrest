@@ -4,12 +4,13 @@ require 'seacrest/collectors'
 module Seacrest
   module Collectors
     class HTMLCollector
+
       def initialize
         # ...
       end
       
-      def parse
-        # ...
+      def handles? file
+        File.extname(file) == ".html"
       end
     end
   end

@@ -17,7 +17,6 @@ module Seacrest
     end
     
     class CSSCollector
-      
       attr_accessor :unique_selectors, :dup_selectors, :all_selectors
       
       def initialize
@@ -26,7 +25,8 @@ module Seacrest
         @dup_selectors = Hash.new
       end
       
-      def parse file
+      # TODO: Refactor this for easier reading and more efficient code handling
+      def process file
         filename = File.basename(file)
         
         parser = CSS::SAC::Parser.new(CSSHandler.new)
@@ -48,6 +48,12 @@ module Seacrest
           end
         end
       end
+      # HOLY CRAP THAT'S A LOT OF "END"s!!!
+      
+      def handles? file
+        File.extname(file) == ".css" # if it's that extension, then it handles it.  Otherwise, it doesn't.
+      end
+    
     end
   end
 end

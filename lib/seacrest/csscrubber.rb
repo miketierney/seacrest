@@ -40,7 +40,7 @@ module Seacrest
 
     def parse_file
       css = Collectors::CSSCollector.new
-      css.parse @file
+      css.process @file
       
       @all_selectors = css.all_selectors
       @selectors = css.unique_selectors

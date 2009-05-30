@@ -1,19 +1,30 @@
 require 'helper'
 
-class TestCSS < Test::Unit::TestCase
+class TestCSSCollector < Test::Unit::TestCase
   def setup
+    @css_file = "#{ASSET_DIR}/csscrubber.css"
     # Testing the Document Handler
     @parser = CSS::SAC::Parser.new(Seacrest::Collectors::CSSHandler.new)
     
     # Testing the Collector
     @my_css = Seacrest::Collectors::CSSCollector.new
-    @my_css.parse "#{ASSET_DIR}/csscrubber.css"
+    @my_css.process @css_file
   end
   
   def test_start_selector
-    actual = @parser.parse(File.read("#{ASSET_DIR}/csscrubber.css"))
+    actual = @parser.parse(File.read(@css_file))
     expected = ['body','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual.selectors
+  end
+
+  def test_handles_css
+    new_css = Seacrest::Collectors::CSSCollector.new
+    assert new_css.handles?(@css_file), "Should be return a 'true' response to handling a CSS file"
+  end
+
+  def test_doesnt_handle_html
+    html = Seacrest::Collectors::CSSCollector.new
+    assert ! html.handles?("#{ASSET_DIR}/csscrubber.html"), "Should be return a 'false' response to handling any other file"
   end
   
   def test_unique_selectors_hash_gets_populated
