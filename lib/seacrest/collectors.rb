@@ -4,7 +4,7 @@ require 'seacrest/collectors/html_collector'
 module Seacrest
   class Collectors
     def initialize
-      # ... 
+      # ...
     end
 
     def can_handle? file
