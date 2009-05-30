@@ -17,6 +17,9 @@ module Seacrest
     end
     
     class CSSCollector
+      #
+      # I'd love for this to just be class CSS, but because of the CSS::SAC usage, I run into naming issues, so for now I've got this named differently in order to prevent that.
+      #
       attr_accessor :unique_selectors, :dup_selectors, :all_selectors
       
       def initialize
