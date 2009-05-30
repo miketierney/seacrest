@@ -12,8 +12,8 @@ class TestSitemapGenerator < Test::Unit::TestCase
       urlset {
         url(:encoding => 'UTF-8') {
           loc 'first.html'
-          priority '0.5'
-          changefreq 'weekly'
+          priority '1.0'
+          changefreq 'daily'
         }
       }
     end
@@ -42,15 +42,15 @@ class TestSitemapGenerator < Test::Unit::TestCase
   def test_stores_existing_pages
     expected = {
       'first.html' => {
-        :priority => '0.5',
-        :changefreq => 'weekly'
+        :priority => '1.0',
+        :changefreq => 'daily'
       }
     }
     assert_equal expected, @sg.existing_pages
   end
   
   def test_existing_pages_stay_put
-    assert_match /(<priority>1.0<\/priority>)/, @sitemap
+    assert_match /(<priority>1.0<\/priority>)/, @sg.sitemap
   end
   
   def test_new_pages_get_added_to_sitemap

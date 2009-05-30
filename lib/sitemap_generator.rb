@@ -1,6 +1,5 @@
 require 'find'
 require 'fileutils'
-require 'rubygems'
 require 'nokogiri'
 
 class SitemapGenerator
@@ -27,8 +26,8 @@ class SitemapGenerator
   def store_existing_pages
     @existing_pages = {}
     @sitemap.xpath('/urlset/url/loc').each do |loc|
+      @existing_pages[loc.text] = {}
       @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
-        @existing_pages[loc.text] = {}
         @existing_pages[loc.text][node.name.to_sym] = node.text
       end
     end
