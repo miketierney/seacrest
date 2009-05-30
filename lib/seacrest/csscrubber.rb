@@ -6,7 +6,7 @@ require 'csspool'
 #
 module Seacrest
   class CSScrubber
-    
+
     def initialize(file)
       @file = file
     end
