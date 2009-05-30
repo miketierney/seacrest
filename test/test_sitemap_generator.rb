@@ -4,9 +4,9 @@ require 'sitemap_generator'
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
     Dir.mkdir 'test/traverse'
-    Dir.mkdir 'test/traverse/again'
+    Dir.mkdir 'test/traverse/down'
     first = File.new 'test/traverse/first.html', 'w'; first.close
-    second = File.new 'test/traverse/again/second.html', 'w'; second.close
+    second = File.new 'test/traverse/down/second.html', 'w'; second.close
     sitemap = File.new 'test/traverse/sitemap.xml', 'w'
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do
       urlset {
@@ -29,7 +29,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
   def test_stores_files_recursively_through_traverse
     expected = [
       'first.html',
-      'again/second.html'
+      'down/second.html'
     ]
     assert_equal expected, @sg.pages
   end
@@ -62,7 +62,14 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
 
   def test_new_pages_get_added_to_sitemap
-    assert_match /(<loc>again\/second.html<\/loc>)/, @sitemap
+    expected = [
+      'down/second.html'
+    ]
+    actual = []
+    @sg.sitemap.xpath('/urlset/url[2]/*').each do |node|
+      actual << node.text
+    end
+    assert_equal expected, actual
   end
 
   def test_validation_option_adds_extra_headers
