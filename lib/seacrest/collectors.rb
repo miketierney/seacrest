@@ -3,6 +3,10 @@ require 'seacrest/collectors/html_collector'
 
 module Seacrest
   class Collectors
+    def initialize
+      # ... 
+    end
+
     def can_handle? file
       filetype = File.extname(file).gsub('.','').upcase
       filetype = filetype == "HTM" ? "HTML" : filetype
