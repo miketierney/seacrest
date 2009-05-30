@@ -30,7 +30,7 @@ module Seacrest
       when '200'
         true
       when /^3/
-        UrlChecker.check response.header['Location']
+        UrlChecker.check_external response.header['Location']
       else
         false
       end
@@ -45,7 +45,7 @@ module Seacrest
         if File.directory?(location)
           return File.exists?("#{location}/index.html")
         end
-
+        # We know the file exists and it wasn't a folder so return true
         true
       end
     end

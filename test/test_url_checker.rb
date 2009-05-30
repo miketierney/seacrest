@@ -21,7 +21,7 @@ end
 
 class FakeResponse
   attr_reader :header
-  
+
   def initialize header
     @header = header
   end
@@ -75,6 +75,25 @@ class TestUrlChecker < Test::Unit::TestCase
 
   def test_looks_for_index_when_given_directory
     assert Seacrest::UrlChecker.check('/test/assets/'), "Couldn't find index.html in #{Dir.pwd}/test/assets/"
+  end
+
+  def test_gets_links_and_lines_from_html
+    file =  StringIO.new(%(<html>
+      <head>
+        <title>test test</title>
+      </head>
+      <body>
+        <div>adfsadf<a href="http://www.onehub.com">onehub</a></div>
+        <a href="http://www.apple.com">apple</a>
+        <a href="http://www.apple.com">apple</a>
+      </body>
+    </html>))
+
+    expected = {'http://www.onehub.com' => [6], 'http://www.apple.com' => [7, 8]}
+
+    actual = Seacrest::UrlChecker.get_links file
+
+    assert_equal expected, actual
   end
 
 end
