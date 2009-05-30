@@ -10,7 +10,7 @@ class TestCSScrubber < Test::Unit::TestCase
   def test_asset_directory_exists # 'cause I created it, and I want to make sure that this actually works.  Will fail if the stuff doesn't exist.
     assert File.exist?(@html), "CSScrubber html file should exist."
   end
-  
+
   def test_should_warn_if_file_doesnt_exist
     new_scrubber = CSScrubber.new "massive_fail.html"
 

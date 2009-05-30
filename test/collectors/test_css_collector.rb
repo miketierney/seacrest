@@ -5,12 +5,12 @@ class TestCSSCollector < Test::Unit::TestCase
     @css_file = "#{ASSET_DIR}/csscrubber.css"
     # Testing the Document Handler
     @parser = CSS::SAC::Parser.new(Collectors::CSSHandler.new)
-    
+
     # Testing the Collector
     @my_css = Collectors::CSSCollector.new
     @my_css.process @css_file
   end
-  
+
   def test_start_selector
     actual = @parser.parse(File.read(@css_file))
     expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
@@ -26,7 +26,7 @@ class TestCSSCollector < Test::Unit::TestCase
     html = Collectors::CSSCollector.new
     assert ! html.handles?("#{ASSET_DIR}/csscrubber.html"), "Should be return a 'false' response to handling any other file"
   end
-  
+
   def test_unique_selectors_hash_gets_populated
     actual = @my_css.unique_selectors
     expected = {
@@ -56,11 +56,11 @@ class TestCSSCollector < Test::Unit::TestCase
       '.ampersand' => ['csscrubber.css'],
       '.message' => ['csscrubber.css'],
       '#call_to_action' => ['csscrubber.css']
-      
+
     }
     assert_equal expected, actual
   end
-  
+
   def test_dup_selectors_hash_gets_populated
     actual = @my_css.dup_selectors
     # expected = {'.info' => [ ['csscrubber.css', 24], ['csscrubber.css', 37] ] }
@@ -73,5 +73,5 @@ class TestCSSCollector < Test::Unit::TestCase
     expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
     assert_equal expected, actual
   end
-  
+
 end
