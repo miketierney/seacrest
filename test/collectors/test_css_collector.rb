@@ -4,10 +4,10 @@ class TestCSSCollector < Test::Unit::TestCase
   def setup
     @css_file = "#{ASSET_DIR}/csscrubber.css"
     # Testing the Document Handler
-    @parser = CSS::SAC::Parser.new(Seacrest::Collectors::CSSHandler.new)
+    @parser = CSS::SAC::Parser.new(Collectors::CSSHandler.new)
     
     # Testing the Collector
-    @my_css = Seacrest::Collectors::CSSCollector.new
+    @my_css = Collectors::CSSCollector.new
     @my_css.process @css_file
   end
   
@@ -18,12 +18,12 @@ class TestCSSCollector < Test::Unit::TestCase
   end
 
   def test_handles_css
-    new_css = Seacrest::Collectors::CSSCollector.new
+    new_css = Collectors::CSSCollector.new
     assert new_css.handles?(@css_file), "Should be return a 'true' response to handling a CSS file"
   end
 
   def test_doesnt_handle_html
-    html = Seacrest::Collectors::CSSCollector.new
+    html = Collectors::CSSCollector.new
     assert ! html.handles?("#{ASSET_DIR}/csscrubber.html"), "Should be return a 'false' response to handling any other file"
   end
   

@@ -7,6 +7,8 @@ require 'seacrest/url_checker'
 require 'seacrest/csscrubber'
 require 'seacrest/collectors'
 
+include Seacrest
+
 ASSET_DIR = "#{File.dirname(__FILE__)}/assets"
 
 class Test::Unit::TestCase
