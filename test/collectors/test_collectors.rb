@@ -4,7 +4,7 @@ require 'helper'
 
 class TestCollectors < Test::Unit::TestCase
   def setup
-    @collectors = Collectors
+    @collectors = Collectors.new
     @file_base = "#{ASSET_DIR}/csscrubber"
     @css_file = "#{@file_base}.css"
     @html_file = "#{@file_base}.html"
@@ -12,8 +12,8 @@ class TestCollectors < Test::Unit::TestCase
   end
   
   def test_see_if_class_exists
-    assert Collectors.const_defined?("CSSCollector"), "Should return true for Collectors::CSSCollector existing"
-    assert ! Collectors.const_defined?("MPTCollector"), "There's currently not such filetype as .mpt (as far as I know), so this shouldn't exist."
+    assert Seacrest.const_defined?("CSSCollector"), "Should return true for Seacrest::CSSCollector existing"
+    assert ! Seacrest.const_defined?("MPTCollector"), "There's currently not such filetype as .mpt (as far as I know), so this shouldn't exist."
   end
   
   def test_handles_css_files

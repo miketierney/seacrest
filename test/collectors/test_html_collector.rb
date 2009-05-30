@@ -1,5 +1,4 @@
 require 'helper'
-include Collectors
 
 class TestHTMLCollector < Test::Unit::TestCase
   def setup

@@ -1,7 +1,5 @@
 require 'helper'
 
-include Collectors
-
 class TestCSSCollector < Test::Unit::TestCase
   def setup
     @css_file = "#{ASSET_DIR}/csscrubber.css"
