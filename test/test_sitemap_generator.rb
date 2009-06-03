@@ -1,6 +1,13 @@
 require 'test/unit'
 require 'sitemap_generator'
 
+class SitemapGenerator
+  CONFIG = {
+    'changefreq' => 'weekly',
+    'priority' => 0.5
+  }
+end
+
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
     Dir.mkdir 'test/traverse'
@@ -62,22 +69,15 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
 
   def test_new_pages_get_added_to_sitemap
-    expected = [
-      'down/second.html'
-    ]
-    actual = []
-    @sg.sitemap.xpath('/urlset/url[2]/*').each do |node|
-      actual << node.text
-    end
-    assert_equal expected, actual
+    assert_equal 'down/second.html', @sg.sitemap.xpath('/urlset/url[2]/loc').text
   end
 
   def test_priority_default_adds_tag
-    assert_match /<priority>0.5<\/priority>/, @sitemap
+    assert_equal '0.5', @sg.sitemap.xpath('/urlset/url[2]/priority').text
   end
 
   def test_changefreq_default_adds_tag
-    assert_match /<changefreq>weekly<\/changefreq>/, @sitemap
+    assert_equal 'weekly', @sg.sitemap.xpath('/urlset/url[2]/changefreq').text
   end
 
   def test_validation_option_adds_extra_headers
