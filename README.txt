@@ -8,6 +8,8 @@ A collection of tools for web masters, designers and developers to create and ma
 
 == FEATURES/PROBLEMS:
 
+* Need to implement last modified optional for Sitemap Generator
+
 === TODO:
 Build the following
 
