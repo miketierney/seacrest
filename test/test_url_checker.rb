@@ -65,6 +65,17 @@ class TestUrlChecker < Test::Unit::TestCase
     assert Seacrest::UrlChecker.check('http://www.apple.com/back'), "Didn't get true back from check"
   end
 
+  def test_prevents_too_many_redirects
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('200'))
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => 'http://www.apple.com'}))
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => 'http://www.apple.com'}))
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => 'http://www.apple.com'}))
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => 'http://www.apple.com'}))
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => 'http://www.apple.com'}))
+
+    assert ! Seacrest::UrlChecker.check('http://www.apple.com/back'), "Didn't get false after 5 redirects"
+  end
+
   def test_true_on_internal_path
     assert Seacrest::UrlChecker.check('/test/assets/csscrubber.html'), "Didn't get true back from check"
   end

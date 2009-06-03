@@ -18,12 +18,15 @@ module Seacrest
 
   private
 
-    def self.check_external uri
+    def self.check_external uri, redirects = 1
       address = URI.parse(uri)
 
       begin
-        response = Net::HTTP.get_response address
-      rescue SocketError
+        # TODO: add support for specifying timeout length
+        response = timeout(DEFAULT_TIMEOUT) do
+          Net::HTTP.get_response address
+        end
+      rescue SocketError, TimeoutError
         return false
       end
 
@@ -31,7 +34,8 @@ module Seacrest
       when '200'
         true
       when /^3/
-        UrlChecker.check_external response.header['Location']
+        return false if redirects > 4
+        UrlChecker.check_external response.header['Location'], redirects + 1
       else
         false
       end
@@ -47,8 +51,10 @@ module Seacrest
           return File.exists?("#{location}/index.html")
         end
         # We know the file exists and it wasn't a folder so return true
-        true
+        return true
       end
+      # The file or directory didn't exist, falls through to false
+      false
     end
 
     def self.get_links file
