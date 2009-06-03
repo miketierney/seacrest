@@ -72,16 +72,16 @@ class TestSitemapGenerator < Test::Unit::TestCase
     assert_equal expected, actual
   end
 
-  def test_validation_option_adds_extra_headers
-    assert_match /(xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance")/, @sitemap, "We're missing the xmlns:xsi header"
-    assert_match /(xsi:schemaLocation="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9 http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9\/sitemap.xsd")/, @sitemap, "We're missing xsi:schemaLocation header"
-  end
-
   def test_priority_default_adds_tag
     assert_match /<priority>0.5<\/priority>/, @sitemap
   end
 
   def test_changefreq_default_adds_tag
     assert_match /<changefreq>weekly<\/changefreq>/, @sitemap
+  end
+
+  def test_validation_option_adds_extra_headers
+    assert_match /(xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance")/, @sitemap, "We're missing the xmlns:xsi header"
+    assert_match /(xsi:schemaLocation="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9 http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9\/sitemap.xsd")/, @sitemap, "We're missing xsi:schemaLocation header"
   end
 end

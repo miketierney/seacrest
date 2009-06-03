@@ -37,9 +37,9 @@ class SitemapGenerator
     if File.exists?(File.join(@origin, 'sitemap.xml'))
       @sitemap = Nokogiri::XML(open(File.join(@origin, 'sitemap.xml')))
       store_existing_pages
-      urlset = Nokogiri::XML::Node.new('urlset', @sitemap)
     else
       @sitemap = Nokogiri::XML.new
+      @sitemap.root = Nokogiri::XML::Node.new('urlset', @sitemap)
     end
 
     @pages.each do |page|
