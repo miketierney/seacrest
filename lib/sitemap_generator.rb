@@ -38,8 +38,10 @@ class SitemapGenerator
       @sitemap = Nokogiri::XML(open(File.join(@origin, 'sitemap.xml')))
       store_existing_pages
     else
-      @sitemap = Nokogiri::XML.new
+      @sitemap = Nokogiri::XML::Document.new
       @sitemap.root = Nokogiri::XML::Node.new('urlset', @sitemap)
+      @sitemap.default_namespace =
+        'http://www.sitemapes.org/schemas/sitemap/0.9'
     end
 
     @pages.each do |page|
