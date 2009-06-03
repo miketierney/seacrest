@@ -6,7 +6,19 @@ require 'timeout'
 module Seacrest
   class UrlChecker
     DIR_ROOT = Dir.pwd
-    DEFAULT_TIMEOUT = 20
+    DEFAULT_TIMEOUT = 20 # Seconds
+
+    def self.validate file
+      links = get_links file
+
+      links.each do |link, lines|
+        status = check(link) ? "good" : "bad"
+        puts "#{lines.join(',')}: #{link} is #{status}"
+      end
+      nil
+    end
+
+  private
 
     def self.check uri
       if uri =~ /^http/i
@@ -15,8 +27,6 @@ module Seacrest
         check_internal uri
       end
     end
-
-  private
 
     def self.check_external uri, redirects = 1
       address = URI.parse(uri)
@@ -31,11 +41,15 @@ module Seacrest
       end
 
       case response.header.code
+
       when '200'
         true
+
       when /^3/
-        return false if redirects > 4
+        # So we don't get caught in an endless redirect loop
+        return false if redirects >= 5
         UrlChecker.check_external response.header['Location'], redirects + 1
+
       else
         false
       end

@@ -48,6 +48,11 @@ end
 
 class TestUrlChecker < Test::Unit::TestCase
 
+  def setup
+    # Silence!
+    $stdout = StringIO.new
+  end
+
   def test_true_on_good_external_url
     Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('200'))
     assert Seacrest::UrlChecker.check('http://www.apple.com'), "Didn't get true back from check"
