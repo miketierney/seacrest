@@ -51,6 +51,12 @@ class SitemapGenerator
         loc = Nokogiri::XML::Node.new('loc', @sitemap)
         loc.content = key.to_s
         url << loc
+        priority = Nokogiri::XML::Node.new('priority', @sitemap)
+        priority.content = CONFIG['priority'] if CONFIG['priority']
+        url << priority
+        changefreq = Nokogiri::XML::Node.new('changefreq', @sitemap)
+        changefreq.content = CONFIG['changefreq'] if CONFIG['changefreq']
+        url << changefreq
       end
       @sitemap.root << url
     end
