@@ -17,7 +17,7 @@ module Seacrest::UrlChecker::Net
       response, expectation = @@respond_with.pop
 
       if expectation
-        raise "Does not match expectation" unless url == expectation
+        raise "#{url} does not match #{expectation}" unless url.to_s == expectation
       end
 
       @@got_response << url
