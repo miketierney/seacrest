@@ -4,17 +4,24 @@ module Seacrest::UrlChecker::Net
   class HTTP
     @@got_response = []
     @@respond_with = []
+
     def self.got_response
       @@got_response.pop
     end
 
-    def self.respond_with object
-      @@respond_with << object
+    def self.respond_with object, expected = nil
+      @@respond_with << [object, expected]
     end
 
     def self.get_response url
+      response, expectation = @@respond_with.pop
+
+      if expectation
+        raise "Does not match expectation" unless url == expectation
+      end
+
       @@got_response << url
-      @@respond_with.pop
+      response
     end
   end
 end
@@ -68,6 +75,13 @@ class TestUrlChecker < Test::Unit::TestCase
     Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => 'http://www.apple.com'}))
 
     assert Seacrest::UrlChecker.check('http://www.apple.com/back'), "Didn't get true back from check"
+  end
+
+  def test_handles_relative_redirect
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('200')), 'http://www.apple.com/back_to_school'
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('301', {'Location' => '/back_to_school'}))
+
+    assert Seacrest::UrlChecker.check('http://www.apple.com/backtoschool'), "Didn't get true back from check"
   end
 
   def test_prevents_too_many_redirects
