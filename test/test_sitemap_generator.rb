@@ -1,6 +1,13 @@
 require 'test/unit'
 require 'sitemap_generator'
 
+class SitemapGenerator
+  CONFIG = {
+    'changefreq' => 'weekly',
+    'priority' => 0.5
+  }
+end
+
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
     Dir.mkdir 'test/traverse'
@@ -62,26 +69,19 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
 
   def test_new_pages_get_added_to_sitemap
-    expected = [
-      'down/second.html'
-    ]
-    actual = []
-    @sg.sitemap.xpath('/urlset/url[2]/*').each do |node|
-      actual << node.text
-    end
-    assert_equal expected, actual
+    assert_equal 'down/second.html', @sg.sitemap.xpath('/urlset/url[2]/loc').text
+  end
+
+  def test_priority_default_adds_tag
+    assert_equal '0.5', @sg.sitemap.xpath('/urlset/url[2]/priority').text
+  end
+
+  def test_changefreq_default_adds_tag
+    assert_equal 'weekly', @sg.sitemap.xpath('/urlset/url[2]/changefreq').text
   end
 
   def test_validation_option_adds_extra_headers
     assert_match /(xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance")/, @sitemap, "We're missing the xmlns:xsi header"
     assert_match /(xsi:schemaLocation="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9 http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9\/sitemap.xsd")/, @sitemap, "We're missing xsi:schemaLocation header"
-  end
-
-  def test_priority_default_adds_tag
-    assert_match /<priority>0.5<\/priority>/, @sitemap
-  end
-
-  def test_changefreq_default_adds_tag
-    assert_match /<changefreq>weekly<\/changefreq>/, @sitemap
   end
 end

@@ -37,9 +37,11 @@ class SitemapGenerator
     if File.exists?(File.join(@origin, 'sitemap.xml'))
       @sitemap = Nokogiri::XML(open(File.join(@origin, 'sitemap.xml')))
       store_existing_pages
-      urlset = Nokogiri::XML::Node.new('urlset', @sitemap)
     else
-      @sitemap = Nokogiri::XML.new
+      @sitemap = Nokogiri::XML::Document.new
+      @sitemap.root = Nokogiri::XML::Node.new('urlset', @sitemap)
+      @sitemap.default_namespace =
+        'http://www.sitemapes.org/schemas/sitemap/0.9'
     end
 
     @pages.each do |page|
@@ -49,6 +51,12 @@ class SitemapGenerator
         loc = Nokogiri::XML::Node.new('loc', @sitemap)
         loc.content = key.to_s
         url << loc
+        priority = Nokogiri::XML::Node.new('priority', @sitemap)
+        priority.content = CONFIG['priority'] if CONFIG['priority']
+        url << priority
+        changefreq = Nokogiri::XML::Node.new('changefreq', @sitemap)
+        changefreq.content = CONFIG['changefreq'] if CONFIG['changefreq']
+        url << changefreq
       end
       @sitemap.root << url
     end
