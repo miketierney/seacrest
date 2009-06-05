@@ -106,10 +106,20 @@ class TestUrlChecker < Test::Unit::TestCase
 
   def test_gets_links_and_lines_from_html
     file = './test/assets/index.html'
-    expected = {'http://www.onehub.com' => [6], 'http://www.apple.com' => [7, 8]}
+    expected = {'http://www.onehub.com' => [6],
+                'http://www.apple.com' => [7, 8],
+                'http://onehub.com/images/logo.png' => [9]}
+
     actual = Seacrest::UrlChecker.get_links file
 
     assert_equal expected, actual
+  end
+
+  def test_generate_output
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('200'))
+    link = ['http://www.apple.com', [1,2]]
+
+    assert_equal "1, 2: http://www.apple.com is good\n", Seacrest::UrlChecker.generate_output(link)
   end
 
 end
