@@ -56,7 +56,7 @@ module Seacrest
         location = response.header['Location']
 
         if location =~ /^\//
-          location = "http://#{address.host}#{location}"
+          location = "#{address.scheme}://#{address.host}#{location}"
         end
 
         UrlChecker.check_external location, redirects + 1
