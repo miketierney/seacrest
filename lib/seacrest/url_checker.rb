@@ -48,7 +48,14 @@ module Seacrest
       when /^3/
         # So we don't get caught in an endless redirect loop
         return false if redirects >= 5
-        UrlChecker.check_external response.header['Location'], redirects + 1
+
+        location = response.header['Location']
+
+        if location =~ /^\//
+          location = "http://#{address.host}#{location}"
+        end
+
+        UrlChecker.check_external location, redirects + 1
 
       else
         false
