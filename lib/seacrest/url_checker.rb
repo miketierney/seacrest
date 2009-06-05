@@ -8,12 +8,16 @@ module Seacrest
     DIR_ROOT = Dir.pwd
     DEFAULT_TIMEOUT = 20 # Seconds
 
+    #      {'tag' => 'link_attribute'}
+    TAGS = {'a'   => 'href',
+            'img' => 'src'}
+
     def self.validate file
       links = get_links file
 
       links.each do |link, lines|
         status = check(link) ? "good" : "bad"
-        puts "#{lines.join(',')}: #{link} is #{status}"
+        puts "#{lines.join(', ')}: #{link} is #{status}"
       end
       nil
     end
@@ -82,7 +86,10 @@ module Seacrest
       html = Nokogiri::XML(open(file))
       links = Hash.new []
 
-      html.css('a').each { |link| links[link['href']] += [link.line]}
+      TAGS.each do |tag, attribute|
+        html.css(tag).each { |link| links[link[attribute]] += [link.line]}
+      end
+
       links
     end
 
