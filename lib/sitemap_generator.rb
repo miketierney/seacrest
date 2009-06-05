@@ -5,16 +5,17 @@ require 'nokogiri'
 class SitemapGenerator
   attr_accessor :pages, :sitemap, :existing_pages
 
-  CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml"))
+  CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml")) || {}
 
   def initialize origin
+    @pages = []
+    @existing_pages = {}
     @origin = origin
     traverse
     build_sitemap
   end
 
   def traverse
-    @pages = []
     Find.find @origin do |path|
       path =~ /^#{@origin}\/(.*)/
       unless File.directory? path
@@ -24,13 +25,17 @@ class SitemapGenerator
   end
 
   def store_existing_pages
-    @existing_pages = {}
-    @sitemap.xpath('/urlset/url/loc').each do |loc|
+    @sitemap.css('urlset > url > loc').each do |loc|
       @existing_pages[loc.text] = {}
       @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
         @existing_pages[loc.text][node.name.to_sym] = node.text
       end
     end
+  end
+
+  def add_namespaces
+    @sitemap.root.add_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+    @sitemap.root.add_namespace('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd')
   end
 
   def build_sitemap
@@ -39,9 +44,8 @@ class SitemapGenerator
       store_existing_pages
     else
       @sitemap = Nokogiri::XML::Document.new
+      @sitemap.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
       @sitemap.root = Nokogiri::XML::Node.new('urlset', @sitemap)
-      @sitemap.default_namespace =
-        'http://www.sitemapes.org/schemas/sitemap/0.9'
     end
 
     @pages.each do |page|
@@ -51,14 +55,19 @@ class SitemapGenerator
         loc = Nokogiri::XML::Node.new('loc', @sitemap)
         loc.content = key.to_s
         url << loc
-        priority = Nokogiri::XML::Node.new('priority', @sitemap)
-        priority.content = CONFIG['priority'] if CONFIG['priority']
-        url << priority
-        changefreq = Nokogiri::XML::Node.new('changefreq', @sitemap)
-        changefreq.content = CONFIG['changefreq'] if CONFIG['changefreq']
-        url << changefreq
+        if CONFIG['priority']
+          priority = Nokogiri::XML::Node.new('priority', @sitemap)
+          priority.content = CONFIG['priority']
+          url << priority
+        end
+        if CONFIG['changefreq']
+          changefreq = Nokogiri::XML::Node.new('changefreq', @sitemap)
+          changefreq.content = CONFIG['changefreq']
+          url << changefreq
+        end
       end
       @sitemap.root << url
+      add_namespaces if CONFIG['validate']
     end
   end
 end
