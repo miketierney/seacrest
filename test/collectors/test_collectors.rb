@@ -8,7 +8,7 @@ class TestCollectors < Test::Unit::TestCase
     @file_base = "#{ASSET_DIR}/csscrubber"
     @css_file = "#{@file_base}.css"
     @html_file = "#{@file_base}.html"
-    @htm_file = "#{@file_base}.htm"
+    @htm_file = "#{ASSET_DIR}/old_timer.htm"
   end
 
   def test_see_if_class_exists
