@@ -5,7 +5,7 @@ require 'nokogiri'
 class SitemapGenerator
   attr_accessor :pages, :sitemap, :existing_pages
 
-  CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml"))
+  CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml")) || {}
 
   def initialize origin
     @origin = origin
@@ -25,7 +25,7 @@ class SitemapGenerator
 
   def store_existing_pages
     @existing_pages = {}
-    @sitemap.xpath('/urlset/url/loc').each do |loc|
+    @sitemap.css('urlset > url > loc').each do |loc|
       @existing_pages[loc.text] = {}
       @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
         @existing_pages[loc.text][node.name.to_sym] = node.text
@@ -51,12 +51,16 @@ class SitemapGenerator
         loc = Nokogiri::XML::Node.new('loc', @sitemap)
         loc.content = key.to_s
         url << loc
-        priority = Nokogiri::XML::Node.new('priority', @sitemap)
-        priority.content = CONFIG['priority'] if CONFIG['priority']
-        url << priority
-        changefreq = Nokogiri::XML::Node.new('changefreq', @sitemap)
-        changefreq.content = CONFIG['changefreq'] if CONFIG['changefreq']
-        url << changefreq
+        if CONFIG['priority']
+          priority = Nokogiri::XML::Node.new('priority', @sitemap)
+          priority.content = CONFIG['priority']
+          url << priority
+        end
+        if CONFIG['changefreq']
+          changefreq = Nokogiri::XML::Node.new('changefreq', @sitemap)
+          changefreq.content = CONFIG['changefreq']
+          url << changefreq
+        end
       end
       @sitemap.root << url
     end
