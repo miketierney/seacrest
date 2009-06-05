@@ -60,26 +60,35 @@ class TestSitemapGenerator < Test::Unit::TestCase
       'daily'
     ]
     actual = []
-    @sg.sitemap.xpath('/urlset/url[1]/*').each do |node|
+    @sg.sitemap.css('urlset > url:first-child > *').each do |node|
       actual << node.text
     end
     assert_equal expected, actual
   end
 
   def test_new_pages_get_added_to_sitemap
-    assert_equal 'down/second.html', @sg.sitemap.xpath('/urlset/url[2]/loc').text
+    assert_equal 'down/second.html', @sg.sitemap.css('urlset > url:last-child > loc').text
   end
 
-  def test_priority_default_adds_tag
+  def test_defaults_not_added_without_activation
+    actual = 0
+    @sg = SitemapGenerator.new 'test/traverse'
+    @sg.sitemap.css('urlset > url:last-child > *').each do |node|
+      actual += 1
+    end
+    assert_equal 1, actual
+  end
+
+  def test_priority_added_with_activation
     SitemapGenerator::CONFIG['priority'] = 0.5
     @sg = SitemapGenerator.new 'test/traverse'
-    assert_equal '0.5', @sg.sitemap.at('urlset').children.last.at('priority').text
+    assert_equal '0.5', @sg.sitemap.css('urlset > url:last-child > priority').text
   end
 
-  def test_changefreq_default_adds_tag
+  def test_changefreq_added_with_activation
     SitemapGenerator::CONFIG['changefreq'] = 'weekly'
     @sg = SitemapGenerator.new 'test/traverse'
-    assert_equal 'weekly', @sg.sitemap.at('urlset').children.last.at('changefreq').text
+    assert_equal 'weekly', @sg.sitemap.css('urlset > url:last-child > changefreq').text
   end
 
   def test_validation_option_adds_extra_headers
