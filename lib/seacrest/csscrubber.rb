@@ -9,10 +9,11 @@ module Seacrest
 
     def initialize(file)
       @file = file
+      @css_files = Array.new
+      @html_files = Array.new
     end
-
+    
     def process_file
-      # TODO: feels like I'm using the rescue statement as a flow-control mechanism... don't like this.
       raise "The file you supplied, #{File.basename(@file)}, is not a valid file; it either may not exist, or it may have been a directory." unless File.exist?(@file)
 
       if Collectors.can_handle? @file
@@ -21,6 +22,9 @@ module Seacrest
 
         @all_selectors = css.all_selectors
         @selectors = css.unique_selectors
+        
+        html = Collectors::HTMLCollector.new
+        html.process @file
       end
     end
 
