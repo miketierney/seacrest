@@ -21,6 +21,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
         }
       }
     end
+    builder.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
     sitemap.puts builder.to_xml
     sitemap.close
     @sg = SitemapGenerator.new 'test/traverse'
@@ -92,7 +93,10 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
 
   def test_validation_option_adds_extra_headers
-    assert_match /(xmlns:xsi="http:\/\/www.w3.org\/2001\/XMLSchema-instance")/, @sitemap, "We're missing the xmlns:xsi header"
-    assert_match /(xsi:schemaLocation="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9 http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9\/sitemap.xsd")/, @sitemap, "We're missing xsi:schemaLocation header"
+    expected = {
+      "xmlns:xsi:schemaLocation" => "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd",
+      "xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance"
+    }
+    assert_equal expected, @sg.sitemap.namespaces
   end
 end
