@@ -8,13 +8,14 @@ class SitemapGenerator
   CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../config/config.yml")) || {}
 
   def initialize origin
+    @pages = []
+    @existing_pages = {}
     @origin = origin
     traverse
     build_sitemap
   end
 
   def traverse
-    @pages = []
     Find.find @origin do |path|
       path =~ /^#{@origin}\/(.*)/
       unless File.directory? path
@@ -24,7 +25,6 @@ class SitemapGenerator
   end
 
   def store_existing_pages
-    @existing_pages = {}
     @sitemap.css('urlset > url > loc').each do |loc|
       @existing_pages[loc.text] = {}
       @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
@@ -39,9 +39,9 @@ class SitemapGenerator
       store_existing_pages
     else
       @sitemap = Nokogiri::XML::Document.new
+      @sitemap.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
       @sitemap.root = Nokogiri::XML::Node.new('urlset', @sitemap)
-      @sitemap.default_namespace =
-        'http://www.sitemapes.org/schemas/sitemap/0.9'
+      @sitemap.root.add_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
     end
 
     @pages.each do |page|
