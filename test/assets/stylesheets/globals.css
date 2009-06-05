@@ -1,0 +1,14 @@
+#new_id {
+  font: normal 62.5% "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
+  line-height: 1;
+  color: #444;
+}
+
+.new_class {
+  font-size: 1.4em;
+}
+
+ul li:first-child {
+  color: #9cc;
+  font-weight: bold;
+}
