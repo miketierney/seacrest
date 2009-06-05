@@ -20,6 +20,9 @@ module Seacrest
       thread_pool = []
       output = ''
 
+      puts "\nChecking links in \"#{file}\"..."
+
+      # Sort links by line number
       links.sort { |a, b| a[1]<=>b[1] }.each do |link|
         queue << link
       end
