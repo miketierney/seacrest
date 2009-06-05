@@ -93,6 +93,8 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
 
   def test_validation_option_adds_extra_headers
+    SitemapGenerator::CONFIG['validate'] = 'true'
+    @sg = SitemapGenerator.new 'test/traverse'
     expected = {
       "xmlns:xsi:schemaLocation" => "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd",
       "xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance"

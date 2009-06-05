@@ -33,6 +33,11 @@ class SitemapGenerator
     end
   end
 
+  def add_namespaces
+    @sitemap.root.add_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+    @sitemap.root.add_namespace('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd')
+  end
+
   def build_sitemap
     if File.exists?(File.join(@origin, 'sitemap.xml'))
       @sitemap = Nokogiri::XML(open(File.join(@origin, 'sitemap.xml')))
@@ -41,7 +46,6 @@ class SitemapGenerator
       @sitemap = Nokogiri::XML::Document.new
       @sitemap.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
       @sitemap.root = Nokogiri::XML::Node.new('urlset', @sitemap)
-      @sitemap.root.add_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
     end
 
     @pages.each do |page|
@@ -63,6 +67,7 @@ class SitemapGenerator
         end
       end
       @sitemap.root << url
+      add_namespaces if CONFIG['validate']
     end
   end
 end
