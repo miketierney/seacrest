@@ -115,4 +115,11 @@ class TestUrlChecker < Test::Unit::TestCase
     assert_equal expected, actual
   end
 
+  def test_generate_output
+    Seacrest::UrlChecker::Net::HTTP.respond_with FakeResponse.new(FakeHeader.new('200'))
+    link = ['http://www.apple.com', [1,2]]
+
+    assert_equal "1, 2: http://www.apple.com is good\n", Seacrest::UrlChecker.generate_output(link)
+  end
+
 end

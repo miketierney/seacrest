@@ -2,6 +2,7 @@ require 'net/http'
 require 'uri'
 require 'nokogiri'
 require 'timeout'
+require 'thread'
 
 module Seacrest
   class UrlChecker
@@ -14,15 +15,38 @@ module Seacrest
 
     def self.validate file
       links = get_links file
+      queue = Queue.new
+      mutex = Mutex.new
+      thread_pool = []
+      output = ''
 
-      links.each do |link, lines|
-        status = check(link) ? "good" : "bad"
-        puts "#{lines.join(', ')}: #{link} is #{status}"
+      links.sort { |a, b| a[1]<=>b[1] }.each do |link|
+        queue << link
       end
-      nil
+
+      5.times {
+        thread_pool << Thread.new do
+          mutex.synchronize {
+          until queue.empty?
+            output << generate_output(queue.pop)
+          end
+          }
+        end
+      }
+
+      thread_pool.each { |t| t.join }
+
+      print output
     end
 
   private
+
+    def self.generate_output link_info
+      link, lines = link_info
+      status = check(link) ? "good" : "bad"
+
+      "#{lines.join(', ')}: #{link} is #{status}\n"
+    end
 
     def self.check uri
       if uri =~ /^http/i
@@ -90,6 +114,7 @@ module Seacrest
         html.css(tag).each { |link| links[link[attribute]] += [link.line]}
       end
 
+      links.each { |link, lines| lines.uniq!}
       links
     end
 
