@@ -2,10 +2,7 @@ require 'test/unit'
 require 'sitemap_generator'
 
 class SitemapGenerator
-  CONFIG = {
-    'changefreq' => 'weekly',
-    'priority' => 0.5
-  }
+  CONFIG = {}
 end
 
 class TestSitemapGenerator < Test::Unit::TestCase
@@ -27,6 +24,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
     sitemap.puts builder.to_xml
     sitemap.close
     @sg = SitemapGenerator.new 'test/traverse'
+    SitemapGenerator::CONFIG.clear
   end
 
   def teardown
@@ -73,11 +71,15 @@ class TestSitemapGenerator < Test::Unit::TestCase
   end
 
   def test_priority_default_adds_tag
-    assert_equal '0.5', @sg.sitemap.xpath('/urlset/url[2]/priority').text
+    SitemapGenerator::CONFIG['priority'] = 0.5
+    @sg = SitemapGenerator.new 'test/traverse'
+    assert_equal '0.5', @sg.sitemap.at('urlset').children.last.at('priority').text
   end
 
   def test_changefreq_default_adds_tag
-    assert_equal 'weekly', @sg.sitemap.xpath('/urlset/url[2]/changefreq').text
+    SitemapGenerator::CONFIG['changefreq'] = 'weekly'
+    @sg = SitemapGenerator.new 'test/traverse'
+    assert_equal 'weekly', @sg.sitemap.at('urlset').children.last.at('changefreq').text
   end
 
   def test_validation_option_adds_extra_headers
