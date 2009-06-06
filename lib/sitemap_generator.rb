@@ -54,7 +54,7 @@ class SitemapGenerator
       end
       @sitemap.root << url
       add_namespaces if CONFIG['validate']
-      write_sitemap
+      # write_sitemap
     end
   end
 
