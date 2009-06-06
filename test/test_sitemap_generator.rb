@@ -1,10 +1,6 @@
 require 'test/unit'
 require 'sitemap_generator'
 
-class SitemapGenerator
-  CONFIG = {}
-end
-
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
     Dir.mkdir 'test/traverse'

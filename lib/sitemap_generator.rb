@@ -24,20 +24,6 @@ class SitemapGenerator
     end
   end
 
-  def store_existing_pages
-    @sitemap.css('urlset > url > loc').each do |loc|
-      @existing_pages[loc.text] = {}
-      @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
-        @existing_pages[loc.text][node.name.to_sym] = node.text
-      end
-    end
-  end
-
-  def add_namespaces
-    @sitemap.root.add_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
-    @sitemap.root.add_namespace('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd')
-  end
-
   def build_sitemap
     if File.exists?(File.join(@origin, 'sitemap.xml'))
       @sitemap = Nokogiri::XML(open(File.join(@origin, 'sitemap.xml')))
@@ -68,6 +54,27 @@ class SitemapGenerator
       end
       @sitemap.root << url
       add_namespaces if CONFIG['validate']
+      # write_sitemap
     end
+  end
+
+  def store_existing_pages
+    @sitemap.css('urlset > url > loc').each do |loc|
+      @existing_pages[loc.text] = {}
+      @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
+        @existing_pages[loc.text][node.name.to_sym] = node.text
+      end
+    end
+  end
+
+  def add_namespaces
+    @sitemap.root.add_namespace('xsi', 'http://www.w3.org/2001/XMLSchema-instance')
+    @sitemap.root.add_namespace('xsi:schemaLocation', 'http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd')
+  end
+
+  def write_sitemap
+    file = File.open(File.join(@origin, 'sitemap.xml'), 'w')
+    @sitemap.write_xml_to file, :indent => 5
+    file.rewind
   end
 end
