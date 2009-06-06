@@ -12,3 +12,11 @@ ul li:first-child {
   color: #9cc;
   font-weight: bold;
 }
+
+.info {
+  min-height: 20px;
+}
+
+.not_in_file {
+  color: #f00;
+}

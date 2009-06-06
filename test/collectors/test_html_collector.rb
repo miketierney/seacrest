@@ -11,11 +11,11 @@ class TestHTMLCollector < Test::Unit::TestCase
   def test_is_html
     assert @my_html.handles?(@html_file), "Detecting that the file is actually an HTML file."
   end
-  
+
   def test_process_html_doesnt_explode
     assert @my_html.process(@html_file), "Doesn't blow up when I ask it to process a file"
   end
-  
+
   def test_unused_selectors_gets_populated
     @my_html.selectors = @selectors
     @my_html.process(@html_file)
