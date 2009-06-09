@@ -42,7 +42,7 @@ module Seacrest
       print output
     end
 
-  private
+    private
 
     def self.generate_output link_info
       link, lines = link_info
@@ -96,22 +96,17 @@ module Seacrest
     def self.check_internal path
       location = DIR_ROOT + path
 
-      if File.exists?(location)
+      return false unless File.exists?(location)
 
-        # See if we can find index.html if it is a directory
-        if File.directory?(location)
-          return File.exists?("#{location}/index.html")
-        end
-        # We know the file exists and it wasn't a folder so return true
-        return true
-      end
-      # The file or directory didn't exist, falls through to false
-      false
+      # See if we can find index.html if it is a directory
+      return File.exists?("#{location}/index.html") if File.directory?(location)
+      # We know the file exists and it wasn't a folder so return true
+      true
     end
 
     def self.get_links file
       html = Nokogiri::XML(open(file))
-      links = Hash.new []
+      links = Hash.new { |h,k| h[k] = [] }
 
       TAGS.each do |tag, attribute|
         html.css(tag).each { |link| links[link[attribute]] += [link.line]}

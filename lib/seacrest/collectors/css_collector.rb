@@ -9,9 +9,9 @@ module Seacrest
     attr_accessor :unique_selectors, :dup_selectors, :all_selectors
 
     def initialize
-      @all_selectors = Array.new
-      @unique_selectors = Hash.new
-      @dup_selectors = Hash.new
+      @all_selectors = []
+      @unique_selectors = {}
+      @dup_selectors = {}
     end
 
     # TODO: Refactor this for easier reading and more efficient code handling
@@ -23,11 +23,11 @@ module Seacrest
       @all_selectors = css_content.selectors
 
       @all_selectors.each do |selector|
-        if @unique_selectors[selector].nil?
+        if ! @unique_selectors[selector]
           # @unique_selectors[selector] = [filename, find_line_number(file, selector)]
           @unique_selectors[selector] = [filename]
         else
-          if @dup_selectors[selector].nil?
+          if ! @dup_selectors[selector]
             # first time out, we want to grab the one from the "unique" selectors list and add it to the duplicated selectors list so that we have ALL occurrences of the selector in the dup list.
             @dup_selectors[selector] = [@unique_selectors[selector],[filename]]
           else
@@ -50,7 +50,7 @@ module Seacrest
     attr_accessor :selectors
 
     def initialize
-      @selectors = Array.new
+      @selectors = []
     end
 
     def start_selector(selectors)

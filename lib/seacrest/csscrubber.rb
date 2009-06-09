@@ -10,13 +10,13 @@ module Seacrest
       @root = root
 
       # @file = file
-      @css_files = Array.new
-      @html_files = Array.new
-      @files = Hash.new
+      @css_files  = []
+      @html_files = []
+      @files      = {}
 
-      @all_selectors = Array.new
-      @unique_selectors = Hash.new
-      @dup_selectors = Hash.new
+      @all_selectors    = []
+      @unique_selectors = {}
+      @dup_selectors    = {}
 
       traverse
     end

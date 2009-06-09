@@ -9,10 +9,10 @@ module Seacrest
     def initialize file_hash
       @files = file_hash
 
-      @all_selectors = Array.new
-      @unique_selectors = Hash.new
-      @dup_selectors = Hash.new
-      @unused_selectors = Array.new
+      @all_selectors    = []
+      @unique_selectors = {}
+      @dup_selectors    = {}
+      @unused_selectors = []
     end
 
     def can_handle? file

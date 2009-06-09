@@ -6,8 +6,8 @@ module Seacrest
     attr_accessor :selectors, :unused_selectors
 
     def initialize
-      @selectors = Array.new # This array should be populated by the CSS Collector, since that's what we're checking against.
-      @unused_selectors = Array.new
+      @selectors = [] # This array should be populated by the CSS Collector, since that's what we're checking against.
+      @unused_selectors = []
     end
 
     def process file
