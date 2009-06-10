@@ -13,30 +13,30 @@ A collection of tools for web masters, designers and developers to create and ma
 === TODO:
 Build the following
 
-- Identify broken URLs (internal, external and resources)
-- Identify any duplicate META descriptions
-- Identify missing headings from document structure
-- Identify duplicate page titles
-- Find orphaned IDs and classes declared in any CSS files but no longer in use in your HTML files
-- Find orphaned images no longer being called from HTML/CSS
-- Generate a Google Sitemap
-- The command line interface would allow you to run the entire suite or each tool individually via triggers.
+* Identify broken URLs (internal, external and resources)
+* Identify any duplicate META descriptions
+* Identify missing headings from document structure
+* Identify duplicate page titles
+* Find orphaned IDs and classes declared in any CSS files but no longer in use in your HTML files
+* Find orphaned images no longer being called from HTML/CSS
+* Generate a Google Sitemap
+* The command line interface would allow you to run the entire suite or each tool individually via triggers.
 
 ==== General TODO's:
- - Need a general utilities file/class/whatever
-  - Extract "traverse" method out from the duplicated locations (currently code is used in both CSScrubber and the Sitemap Generator)
+ * Need a general utilities file/class/whatever
+  * Extract "traverse" method out from the duplicated locations (currently code is used in both CSScrubber and the Sitemap Generator)
 
 ==== CSScrubber
 
 ===== Need to haves
- - Compare CSS and HTML files
- - Traverse a full directory and compare all the files with one another
- - Find CSS files linked within HTML files (may not live inside a known directory) ??? -> may be moot with proper directory traversal
- - Traverse a live site and compare the files with one another
+ * Compare CSS and HTML files
+ * Traverse a full directory and compare all the files with one another
+ * Find CSS files linked within HTML files (may not live inside a known directory) ??? -> may be moot with proper directory traversal
+ * Traverse a live site and compare the files with one another
 
 ===== Nice to haves
- - Find a way to know what selectors *are* being used in an HTML file, even if they're not listed in the CSS file.
- - Add the ability to ignore known frameworks (960.gs, blueprint.css, etc) or the ability to include these if they are ignored by default
+ * Find a way to know what selectors *are* being used in an HTML file, even if they're not listed in the CSS file.
+ * Add the ability to ignore known frameworks (960.gs, blueprint.css, etc) or the ability to include these if they are ignored by default
 
 == SYNOPSIS:
 
@@ -44,7 +44,8 @@ None yet
 
 == REQUIREMENTS:
 
-None yet
+* csspool (>= 0.2.6)
+* Nokogiri (>= 1.2.4)
 
 == INSTALL:
 

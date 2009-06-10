@@ -8,6 +8,9 @@ A collection of tools for web masters, designers and developers to create and ma
 
 ### FEATURES/PROBLEMS:
 
+- Need to implement last modified optional for Sitemap Generator
+- CSScrubber needs to not be file agnostic; right now everything's ending up in the unused selectors list.
+
 #### TODO:
 Build the following
 
@@ -20,13 +23,29 @@ Build the following
 - Generate a Google Sitemap
 - The command line interface would allow you to run the entire suite or each tool individually via triggers.
 
+##### General TODO's:
+ - Need a general utilities file/class/whatever
+  - Extract "traverse" method out from the duplicated locations (currently code is used in both CSScrubber and the Sitemap Generator)
+
+###### CSScrubber
+
+###### Need to haves
+ - Find CSS files linked within HTML files (may not live inside a known directory) ??? -> may be moot with proper directory traversal
+ - Traverse a live site and compare the files with one another
+
+###### Nice to haves
+ - Find a way to know what selectors *are* being used in an HTML file, even if they're not listed in the CSS file.
+ - Add the ability to ignore known frameworks (960.gs, blueprint.css, etc) or the ability to include these if they are ignored by default
+
+
 ### SYNOPSIS:
 
 *None yet*
 
 ### REQUIREMENTS:
 
-*None yet*
+ - csspool (>= 0.2.6)
+ - Nokogiri (>= 1.2.4)
 
 == INSTALL:
 
