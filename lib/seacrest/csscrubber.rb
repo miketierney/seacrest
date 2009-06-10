@@ -10,13 +10,13 @@ module Seacrest
       @root = root
 
       # @file = file
-      @css_files = Array.new
-      @html_files = Array.new
-      @files = Hash.new
+      @css_files = []
+      @html_files = []
+      @files = {}
 
-      @all_selectors = Array.new
-      @unique_selectors = Hash.new
-      @dup_selectors = Hash.new
+      @all_selectors = []
+      @unique_selectors = {}
+      @dup_selectors = {}
 
       traverse
     end
@@ -32,16 +32,20 @@ module Seacrest
           if @files[ext].nil?
             @files[ext] = [path]
           else
-            @files[ext] += [path]
+            @files[ext] << path
           end
         end
       end
     end
 
     def process_files
-
       collection = Collectors.new @files
       collection.process_files
+      
+      @all_selectors = collection.all_selectors.flatten # Only want a one dimensional array.  None of this two dimensional nonsense.
+      @unique_selectors = collection.unique_selectors
+      @dup_selectors = collection.dup_selectors
+      @unused_selectors = collection.unused_selectors
     end
 
   end
