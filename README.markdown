@@ -47,7 +47,7 @@ Build the following
  - csspool (>= 0.2.6)
  - Nokogiri (>= 1.2.4)
 
-== INSTALL:
+### INSTALL:
 
 *No installer yet ... will probably be a gem at some point.*
 
