@@ -6,7 +6,7 @@ require 'thread'
 
 module Seacrest
   class UrlChecker
-    DIR_ROOT = Dir.pwd
+    @@dir_root = Dir.pwd
     DEFAULT_TIMEOUT = 20 # Seconds
 
     #      {'tag' => 'link_attribute'}
@@ -40,6 +40,10 @@ module Seacrest
       thread_pool.each { |t| t.join }
 
       print output
+    end
+    
+    def dir_root= arg
+      @@dir_root = arg
     end
 
   private
@@ -94,7 +98,7 @@ module Seacrest
     end
 
     def self.check_internal path
-      location = DIR_ROOT + path
+      location = @@dir_root + path
 
       if File.exists?(location)
 
