@@ -40,19 +40,28 @@ class TestCSScrubber < Test::Unit::TestCase
   end
   
   def test_all_selectors_stores_duplicates
-    actual = @scrubber.all_selectors.count
-    expected = 2
+    # I don't like this test.  It feels too hacky in the execution.  Find a better way to handle this.
+    # actual = @scrubber.all_selectors.count(".info") # This would work if I was using Ruby 1.8.7 ...
+    dup_count = 0
+    
+    @scrubber.all_selectors.each do |i|
+      if i == ".info"
+        dup_count += 1
+      end
+    end
+    
+    actual = dup_count
+    expected = 4
     assert_equal expected, actual
   end
   
   def test_stores_unused_selectors
-    assert @scrubber.unused_selectors.has_key?('.not_in_file'), "Should include the .not_in_file selector."
+    assert @scrubber.unused_selectors.include?('.not_in_file'), "Should include the .not_in_file selector."
   end
   
   def test_stores_duplicate_selectors
-    p @scrubber.dup_selectors
-    
-    assert @scrubber.dup_selectors.has_key?('.info'), "Should include the .info selector."
-    assert @scrubber.dup_selectors.has_value?(['csscrubber.css','globals.css']), "Should include the .info selector files."
+    assert @scrubber.dup_selectors.has_key?(".info"), "Should include the .info selector."
+    assert @scrubber.dup_selectors['.info'].include?('csscrubber.css'), "Should include the .info selector files."
+    assert @scrubber.dup_selectors['.info'].include?('globals.css'), "Should include the .info selector files."
   end
 end

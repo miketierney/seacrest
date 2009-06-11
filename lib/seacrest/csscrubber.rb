@@ -45,7 +45,7 @@ module Seacrest
       @all_selectors = collection.all_selectors.flatten # Only want a one dimensional array.  None of this two dimensional nonsense.
       @unique_selectors = collection.unique_selectors
       @dup_selectors = collection.dup_selectors
-      @unused_selectors = collection.unused_selectors
+      @unused_selectors = collection.unused_selectors.flatten
     end
 
   end

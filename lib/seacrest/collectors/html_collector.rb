@@ -21,8 +21,5 @@ module Seacrest
       end
     end
 
-    def handles? file
-      File.extname(file) == ".html"
-    end
   end
 end
