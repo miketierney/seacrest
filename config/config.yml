@@ -9,4 +9,4 @@
 #
 # Uncomment the line below if you would like to specify a change frequency for your pages. The value "always" should be used to describe documents that change each time they are accessed. The value "never" should be used to describe archived URLs.
 # Options: always, hourly, daily, weekly, monthly, yearly, never
-# changefreq: weekly
+changefreq: weekly

@@ -10,16 +10,17 @@ class SitemapGenerator
   def initialize origin
     @pages = []
     @existing_pages = {}
-    @origin = origin
+    @origin = File.expand_path(origin)
     traverse
     build_sitemap
   end
 
   def traverse
     Find.find @origin do |path|
-      path =~ /^#{@origin}\/(.*)/
-      unless File.directory? path
+      if path =~ /^#{@origin}\/(.+)/
+      unless File.directory?(path) && File.exists?(path)
         @pages << $1 unless $1 == 'sitemap.xml'
+      end
       end
     end
   end
@@ -54,7 +55,7 @@ class SitemapGenerator
       end
       @sitemap.root << url
       add_namespaces if CONFIG['validate']
-      # write_sitemap
+      write_sitemap
     end
   end
 
@@ -73,7 +74,8 @@ class SitemapGenerator
   end
 
   def write_sitemap
-    file = File.open(File.join(@origin, 'sitemap.xml'), 'w')
+    expanded = File.expand_path(File.join(@origin, 'sitemap.xml'))
+    file = File.open(expanded, 'w')
     @sitemap.write_xml_to file, :indent => 5
     file.rewind
   end
