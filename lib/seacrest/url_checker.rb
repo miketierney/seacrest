@@ -42,7 +42,7 @@ module Seacrest
       print output
     end
     
-    def dir_root= arg
+    def self.dir_root= arg
       @@dir_root = arg
     end
 
