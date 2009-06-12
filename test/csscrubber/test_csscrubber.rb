@@ -45,8 +45,6 @@ class TestCSScrubber < Test::Unit::TestCase
   end
   
   def test_all_selectors_stores_duplicates
-    # I don't like this test.  It feels too hacky in the execution.  Find a better way to handle this.
-    # actual = @scrubber.all_selectors.count(".info") # This would work if I was using Ruby 1.8.7 ...
     dup_count = 0
     
     @scrubber.all_selectors.each do |i|

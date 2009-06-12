@@ -45,7 +45,6 @@ class TestCollectors < Test::Unit::TestCase
   end
 
   def test_unique_css_selectors
-    # ultimately needs to look like { "selector" => {:files => "a.css, b.css", :used => false}}
     assert @collectors.unique_selectors.has_key?('body'), "Should have a reference to the body"
     assert @collectors.unique_selectors['body'].has_key?(:files), "Body should have a key for the files"
     assert @collectors.unique_selectors['body'].has_value?(['csscrubber.css']), "Body should have an array of the files this selector can be found in"
@@ -57,10 +56,8 @@ class TestCollectors < Test::Unit::TestCase
     assert @collectors.dup_selectors.include?('.info'), "Should have a reference to the .info class, since it's the duplicated class"
   end
 
-  # Commented out for the sake of my co-authors; don't want to force them to look at my failing test until I solve it.
-  # def test_unused_css_selectors
-  #   @collectors.process_files
-  #   assert @collectors.unused_selectors.include?('.not_in_file'), "Should have a reference to the .not_in_file class, since it's the unused class"
-  # end
+  def test_unused_css_selectors
+    assert @collectors.unused_selectors.include?('.not_in_file'), "Should have a reference to the .not_in_file class, since it's the unused class"
+  end
 
 end
