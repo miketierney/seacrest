@@ -49,7 +49,7 @@ class TestCollectors < Test::Unit::TestCase
     assert @collectors.unique_selectors['body'].has_key?(:files), "Body should have a key for the files"
     assert @collectors.unique_selectors['body'].has_value?(['csscrubber.css']), "Body should have an array of the files this selector can be found in"
     assert @collectors.unique_selectors['body'].has_key?(:used), "Body should have a key for the state"
-    assert @collectors.unique_selectors['body'].has_value?(false), "Body should have boolean for the state of the selector"
+    assert @collectors.unique_selectors['body'].has_value?(true), "Body should have boolean for the state of the selector"
   end
 
   def test_dup_css_selectors
@@ -58,6 +58,11 @@ class TestCollectors < Test::Unit::TestCase
 
   def test_unused_css_selectors
     assert @collectors.unused_selectors.include?('.not_in_file'), "Should have a reference to the .not_in_file class, since it's the unused class"
+  end
+  
+  def test_unused_multiple_files
+    assert @collectors.unused_selectors.include?('.arbitary_class'), "Should have a selector from csscrubber.css"
+    assert @collectors.unused_selectors.include?('.not_in_file'), "Should have a selector from stylesheets/globals.css"
   end
 
 end

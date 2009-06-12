@@ -20,3 +20,7 @@ ul li:first-child {
 .not_in_file {
   color: #f00;
 }
+
+#call_to_action {
+  background-color: #eee;
+}

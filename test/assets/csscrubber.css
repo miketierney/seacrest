@@ -59,3 +59,11 @@ div.message {
 .info {
   text-align: left;
 }
+
+.arbitary_class {
+  background: transparent;
+}
+
+.not_in_class {
+  background: transparent;
+}

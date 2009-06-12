@@ -1,6 +1,3 @@
-require 'csspool'
-require 'seacrest/collectors'
-
 module Seacrest
   class CSSCollector
     #
