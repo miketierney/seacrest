@@ -31,8 +31,8 @@ class SitemapGenerator
       store_existing_pages
     else
       @sitemap = Nokogiri::XML::Document.new
-      @sitemap.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
       @sitemap.root = Nokogiri::XML::Node.new('urlset', @sitemap)
+      @sitemap.root.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
     end
 
     @pages.each do |page|
