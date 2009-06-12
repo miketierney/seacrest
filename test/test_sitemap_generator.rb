@@ -1,5 +1,4 @@
-require 'test/unit'
-require 'sitemap_generator'
+require 'helper'
 
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
@@ -17,10 +16,11 @@ class TestSitemapGenerator < Test::Unit::TestCase
         }
       }
     end
-    builder.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
+    builder.doc.root.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
     sitemap.puts builder.to_xml
     sitemap.close
-    @sg = SitemapGenerator.new 'test/traverse'
+    Seacrest::SitemapGenerator::CONFIG.clear
+    @sg = Seacrest::SitemapGenerator.new 'test/traverse'
   end
 
   def teardown
@@ -64,5 +64,13 @@ class TestSitemapGenerator < Test::Unit::TestCase
 
   def test_new_pages_get_added_to_sitemap
     assert_equal 'down/second.html', @sg.sitemap.css('urlset > url:last-child > loc').text
+  end
+  
+  def test_defaults_not_added_without_activation
+    actual = 0
+    @sg.sitemap.css('urlset > url:last-child > *').each do |node|
+      actual += 1
+    end
+    assert_equal 1, actual
   end
 end
