@@ -12,7 +12,7 @@ class TestCSScrubber < Test::Unit::TestCase
   def test_asset_directory_exists # 'cause I created it, and I want to make sure that this actually works.  Will fail if the stuff doesn't exist.
     assert File.exist?(@html), "CSScrubber html file should exist."
   end
-
+  
   def test_stores_files_recursively_through_traverse
     assert @scrubber.files.has_key?('css'), "Should store CSS files"
     assert @scrubber.files.has_value?(["#{ASSET_DIR}/stylesheets/globals.css","#{ASSET_DIR}/csscrubber.css"]), "Should store the CSS filenames"
@@ -23,13 +23,18 @@ class TestCSScrubber < Test::Unit::TestCase
     assert @scrubber.files.has_key?('rb'), "Should store RB files"
     assert @scrubber.files.has_value?(["#{ASSET_DIR}/ignore_me.rb"]), "Should store the RB filenames"
   end
-
+  
   def test_stores_unique_selectors
     assert @scrubber.unique_selectors.has_key?('body'), "Should include the body tag."
     assert @scrubber.unique_selectors.has_key?('.info'), "Should include the .info selector."
     assert @scrubber.unique_selectors.has_key?('.info.message'), "Should include the .info.message selector."
     assert @scrubber.unique_selectors.has_key?('.not_in_file'), "Should include the .not_in_file selector."
     assert @scrubber.unique_selectors.has_key?('ul li:first-child'), "Should include the ul li:first-child selector."
+  end
+  
+  def test_unique_selectors_stores_state
+    assert @scrubber.unique_selectors['.not_in_file'].has_value?(false), "Should show 'false' for at least one selector, since that is the default state."
+    assert @scrubber.unique_selectors['body'].has_value?(true), "Should show 'true' for at least one selector, since that should be set during the processing."
   end
   
   def test_stores_all_selectors
@@ -40,8 +45,6 @@ class TestCSScrubber < Test::Unit::TestCase
   end
   
   def test_all_selectors_stores_duplicates
-    # I don't like this test.  It feels too hacky in the execution.  Find a better way to handle this.
-    # actual = @scrubber.all_selectors.count(".info") # This would work if I was using Ruby 1.8.7 ...
     dup_count = 0
     
     @scrubber.all_selectors.each do |i|
@@ -57,6 +60,7 @@ class TestCSScrubber < Test::Unit::TestCase
   
   def test_stores_unused_selectors
     assert @scrubber.unused_selectors.include?('.not_in_file'), "Should include the .not_in_file selector."
+    assert !@scrubber.unused_selectors.include?('.info'), "Should NOT include the .info selector."
   end
   
   def test_stores_duplicate_selectors

@@ -25,17 +25,16 @@ module Seacrest
       @all_selectors.each do |selector|
         if @unique_selectors[selector].nil?
           # @unique_selectors[selector] = [filename, find_line_number(file, selector)]
-          @unique_selectors[selector] = [filename]
+          @unique_selectors[selector] = { :files => [filename], :used => false }
         else
           if @dup_selectors[selector].nil?
             # first time out, we want to grab the one from the "unique" selectors list and add it to the duplicated selectors list so that we have ALL occurrences of the selector in the dup list.
-            @dup_selectors[selector] = @unique_selectors[selector]
+            @dup_selectors[selector] = @unique_selectors[selector][:files]
           else
             # once there's a key in the hash, just add to that key.
             unless @dup_selectors[selector].include? filename
               @dup_selectors[selector] << filename
             end
-            
           end
         end
       end
