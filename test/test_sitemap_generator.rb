@@ -17,7 +17,7 @@ class TestSitemapGenerator < Test::Unit::TestCase
         }
       }
     end
-    builder.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
+    builder.doc.root.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
     sitemap.puts builder.to_xml
     sitemap.close
     @sg = SitemapGenerator.new 'test/traverse'
