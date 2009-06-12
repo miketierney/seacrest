@@ -48,13 +48,21 @@ module Seacrest
               collector.unique_selectors = @unique_selectors
 
               collector.process(file)
-              # Currently it's checking ONLY against the unique file.  Need to have a better dataset to test against.
               @unused_selectors << collector.unused_selectors
               
             end
           end
         end
       end
+      
+      @unused_selectors.flatten!
+
+      @unused_selectors.each do |selector|
+        if @unique_selectors[selector][:state] == true
+          @unused_selectors.delete(selector)
+        end
+      end
+      
     end
 
   end

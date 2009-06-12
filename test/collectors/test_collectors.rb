@@ -47,10 +47,10 @@ class TestCollectors < Test::Unit::TestCase
   def test_unique_css_selectors
     # ultimately needs to look like { "selector" => {:files => "a.css, b.css", :used => false}}
     assert @collectors.unique_selectors.has_key?('body'), "Should have a reference to the body"
-    assert @collectors.unique_selectors['body'].has_key?(:files), "Should have a reference to the body"
-    assert @collectors.unique_selectors['body'].has_value?([@css_file]), "Should have a reference to the body"
-    assert @collectors.unique_selectors['body'].has_key?(:used), "Should have a reference to the body"
-    assert @collectors.unique_selectors['body'].has_value?('false'), "Should have a reference to the body"
+    assert @collectors.unique_selectors['body'].has_key?(:files), "Body should have a key for the files"
+    assert @collectors.unique_selectors['body'].has_value?(['csscrubber.css']), "Body should have an array of the files this selector can be found in"
+    assert @collectors.unique_selectors['body'].has_key?(:used), "Body should have a key for the state"
+    assert @collectors.unique_selectors['body'].has_value?(false), "Body should have boolean for the state of the selector"
   end
 
   def test_dup_css_selectors
