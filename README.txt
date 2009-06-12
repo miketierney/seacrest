@@ -45,7 +45,7 @@ None yet
 == REQUIREMENTS:
 
 * csspool (>= 0.2.6)
-* Nokogiri (>= 1.2.4)
+* Nokogiri (>= 1.3.1.20090611092310)
 
 == INSTALL:
 
