@@ -47,6 +47,13 @@ module Seacrest
       @dup_selectors = collection.dup_selectors
       @unused_selectors = collection.unused_selectors.flatten
     end
+    
+    def self.run root
+      css = CSScrubber.new root
+      css.process_files
+    end
 
   end
 end
+
+CSScrubber.run(ARGV[0], ARGV[1]) if $0 == __FILE__

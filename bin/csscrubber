@@ -1,0 +1,3 @@
+require '../lib/seacrest'
+
+CSScrubber.run(ARGV[0])
