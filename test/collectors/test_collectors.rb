@@ -20,6 +20,8 @@ class TestCollectors < Test::Unit::TestCase
       "html" => ["#{ASSET_DIR}/index.html","#{ASSET_DIR}/csscrubber.html"],
       "rb" => ["#{ASSET_DIR}/ignore_me.rb"]
     })
+    
+    @collectors.process_files
   end
 
   def test_see_if_class_exists
@@ -37,19 +39,21 @@ class TestCollectors < Test::Unit::TestCase
   end
 
   def test_process_files_kills_htm
-    @collectors.process_files
     actual = @collectors.files.has_key?('htm')
     expected = false
     assert_equal expected, actual
   end
 
   def test_unique_css_selectors
-    @collectors.process_files
-    assert @collectors.unique_selectors.include?('body'), "Should have a reference to the body"
+    # ultimately needs to look like { "selector" => {:files => "a.css, b.css", :used => false}}
+    assert @collectors.unique_selectors.has_key?('body'), "Should have a reference to the body"
+    assert @collectors.unique_selectors['body'].has_key?(:files), "Should have a reference to the body"
+    assert @collectors.unique_selectors['body'].has_value?([@css_file]), "Should have a reference to the body"
+    assert @collectors.unique_selectors['body'].has_key?(:used), "Should have a reference to the body"
+    assert @collectors.unique_selectors['body'].has_value?('false'), "Should have a reference to the body"
   end
 
   def test_dup_css_selectors
-    @collectors.process_files
     assert @collectors.dup_selectors.include?('.info'), "Should have a reference to the .info class, since it's the duplicated class"
   end
 

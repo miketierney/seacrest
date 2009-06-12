@@ -28,38 +28,43 @@ class TestCSSCollector < Test::Unit::TestCase
   # end
 
   def test_unique_selectors_hash_gets_populated
-    actual = @my_css.unique_selectors
-    expected = {
-      ## This is commented out for now, since it's failing because of something that's beyond my control at the moment.
-      # 'body' => ['csscrubber.css', 1],
-      # 'p' => ['csscrubber.css', 7],
-      # 'a:link' => ['csscrubber.css', 11],
-      # 'a:visited' => ['csscrubber.css', 11],
-      # 'a:hover' => ['csscrubber.css', 19],
-      # 'a:active' => ['csscrubber.css', 19],
-      # 'div.message' => ['csscrubber.css', 21],
-      # '.info' => ['csscrubber.css', 29],
-      # '.info.message' => ['csscrubber.css', 36],
-      # 'em' => ['csscrubber.css', 36],
-      # '.ampersand' => ['csscrubber.css', 36],
-      # '.message' => ['csscrubber.css', 46],
-      # '#call_to_action' => ['csscrubber.css', 53]
-      'body' => ['csscrubber.css'],
-      'p' => ['csscrubber.css'],
-      'a:link' => ['csscrubber.css'],
-      'a:visited' => ['csscrubber.css'],
-      'a:hover' => ['csscrubber.css'],
-      'a:active' => ['csscrubber.css'],
-      'div.message' => ['csscrubber.css'],
-      '.info' => ['csscrubber.css'],
-      '.info.message' => ['csscrubber.css'],
-      'em' => ['csscrubber.css'],
-      '.ampersand' => ['csscrubber.css'],
-      '.message' => ['csscrubber.css'],
-      '#call_to_action' => ['csscrubber.css']
-
-    }
-    assert_equal expected, actual
+    assert @my_css.unique_selectors.has_key?('body'), "Should have a reference to the body"
+    assert @my_css.unique_selectors['body'].has_key?(:files), "Body should have a key for the files"
+    assert @my_css.unique_selectors['body'].has_value?(['csscrubber.css']), "Body should have an array of the files this selector can be found in"
+    assert @my_css.unique_selectors['body'].has_key?(:used), "Body should have a key for the state"
+    assert @my_css.unique_selectors['body'].has_value?(false), "Body should have boolean for the state of the selector"
+    # actual = @my_css.unique_selectors
+    # expected = {
+    #   ## This is commented out for now, since it's failing because of something that's beyond my control at the moment.
+    #   # 'body' => ['csscrubber.css', 1],
+    #   # 'p' => ['csscrubber.css', 7],
+    #   # 'a:link' => ['csscrubber.css', 11],
+    #   # 'a:visited' => ['csscrubber.css', 11],
+    #   # 'a:hover' => ['csscrubber.css', 19],
+    #   # 'a:active' => ['csscrubber.css', 19],
+    #   # 'div.message' => ['csscrubber.css', 21],
+    #   # '.info' => ['csscrubber.css', 29],
+    #   # '.info.message' => ['csscrubber.css', 36],
+    #   # 'em' => ['csscrubber.css', 36],
+    #   # '.ampersand' => ['csscrubber.css', 36],
+    #   # '.message' => ['csscrubber.css', 46],
+    #   # '#call_to_action' => ['csscrubber.css', 53]
+    #   'body' => ['csscrubber.css'],
+    #   'p' => ['csscrubber.css'],
+    #   'a:link' => ['csscrubber.css'],
+    #   'a:visited' => ['csscrubber.css'],
+    #   'a:hover' => ['csscrubber.css'],
+    #   'a:active' => ['csscrubber.css'],
+    #   'div.message' => ['csscrubber.css'],
+    #   '.info' => ['csscrubber.css'],
+    #   '.info.message' => ['csscrubber.css'],
+    #   'em' => ['csscrubber.css'],
+    #   '.ampersand' => ['csscrubber.css'],
+    #   '.message' => ['csscrubber.css'],
+    #   '#call_to_action' => ['csscrubber.css']
+    # 
+    # }
+    # assert_equal expected, actual
   end
 
   def test_dup_selectors_hash_gets_populated
