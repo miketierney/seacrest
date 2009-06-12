@@ -60,10 +60,6 @@ class SitemapGenerator
   end
 
   def store_existing_pages
-    # @sitemap.css('urlset > url > loc').each do |loc|
-    #   @existing_pages[loc.text] = {}
-    #   @sitemap.xpath('/urlset/url/*[position()>1]').each do |node|
-    #     @existing_pages[loc.text][node.name.to_sym] = node.text
     @sitemap.css('urlset > url').each do |url|
       href = url.at('loc').text
       @existing_pages[href] = {}
