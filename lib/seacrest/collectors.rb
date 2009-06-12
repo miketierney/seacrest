@@ -4,15 +4,15 @@ require 'seacrest/collectors/html_collector'
 module Seacrest
   class Collectors
 
-    attr_accessor :unique_selectors, :dup_selectors, :unused_selectors
+    attr_accessor :unique_selectors, :dup_selectors, :unused_selectors, :all_selectors
 
     def initialize file_hash
       @files = file_hash
 
-      @all_selectors = Array.new
-      @unique_selectors = Hash.new
-      @dup_selectors = Hash.new
-      @unused_selectors = Array.new
+      @all_selectors = []
+      @unique_selectors = {}
+      @dup_selectors = {}
+      @unused_selectors = []
     end
 
     def can_handle? file
@@ -34,7 +34,7 @@ module Seacrest
           ext = files.first
 
           collector = eval("#{ext.upcase}Collector").new
-          # @processed["#{ext.downcase}"] = Array.new
+          # @processed["#{ext.downcase}"] = []
 
           files.last.each do |file|
             collector.process(file)
@@ -50,7 +50,6 @@ module Seacrest
               @unused_selectors << collector.unused_selectors
 
             end
-
           end
         end
       end

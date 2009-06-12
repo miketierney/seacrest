@@ -29,20 +29,18 @@ module Seacrest
         else
           if @dup_selectors[selector].nil?
             # first time out, we want to grab the one from the "unique" selectors list and add it to the duplicated selectors list so that we have ALL occurrences of the selector in the dup list.
-            @dup_selectors[selector] = [@unique_selectors[selector],[filename]]
+            @dup_selectors[selector] = @unique_selectors[selector]
           else
             # once there's a key in the hash, just add to that key.
-            @dup_selectors[selector] += [[filename]] # this seems silly to me ...
+            unless @dup_selectors[selector].include? filename
+              @dup_selectors[selector] << filename
+            end
+            
           end
         end
       end
     end
     # HOLY CRAP THAT'S A LOT OF "END"s!!!
-
-    def handles? file
-      File.extname(file) == ".css" # if it's that extension, then it handles it.  Otherwise, it doesn't.
-    end
-
   end
 
   class CSSHandler < CSS::SAC::DocumentHandler
