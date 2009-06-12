@@ -28,6 +28,7 @@ class TestSitemapGeneratorDefaults < Test::Unit::TestCase
 
   def test_validation_option_adds_extra_headers
     expected = {
+      "xmlns"=>"http://www.sitemaps.org/schemas/sitemap/0.9",
       "xmlns:xsi:schemaLocation" => "http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd",
       "xmlns:xsi"=>"http://www.w3.org/2001/XMLSchema-instance"
     }
