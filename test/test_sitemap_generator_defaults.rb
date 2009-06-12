@@ -1,5 +1,4 @@
-require 'test/unit'
-require 'sitemap_generator'
+require 'helper'
 
 class TestSitemapGeneratorDefaults < Test::Unit::TestCase
   def setup
@@ -7,11 +6,11 @@ class TestSitemapGeneratorDefaults < Test::Unit::TestCase
     Dir.mkdir 'test/traverse/down'
     first = File.new 'test/traverse/first.html', 'w'; first.close
     second = File.new 'test/traverse/down/second.html', 'w'; second.close
-    SitemapGenerator::CONFIG.clear
-    SitemapGenerator::CONFIG['priority'] = 0.5
-    SitemapGenerator::CONFIG['changefreq'] = 'weekly'
-    SitemapGenerator::CONFIG['validate'] = 'true'
-    @sg = SitemapGenerator.new 'test/traverse'
+    Seacrest::SitemapGenerator::CONFIG.clear
+    Seacrest::SitemapGenerator::CONFIG['priority'] = 0.5
+    Seacrest::SitemapGenerator::CONFIG['changefreq'] = 'weekly'
+    Seacrest::SitemapGenerator::CONFIG['validate'] = 'true'
+    @sg = Seacrest::SitemapGenerator.new 'test/traverse'
   end
 
   def teardown

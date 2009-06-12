@@ -3,9 +3,10 @@ $: << File.dirname(__FILE__)
 require 'rubygems'
 require 'test/unit'
 require 'seacrest'
-require 'seacrest/url_checker'
-require 'seacrest/csscrubber'
 require 'seacrest/collectors'
+require 'seacrest/csscrubber'
+require 'seacrest/sitemap_generator'
+require 'seacrest/url_checker'
 
 include Seacrest
 

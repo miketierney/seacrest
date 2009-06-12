@@ -1,5 +1,4 @@
-require 'test/unit'
-require 'sitemap_generator'
+require 'helper'
 
 class TestSitemapGenerator < Test::Unit::TestCase
   def setup
@@ -20,8 +19,8 @@ class TestSitemapGenerator < Test::Unit::TestCase
     builder.doc.root.default_namespace = 'http://www.sitemaps.org/schemas/sitemap/0.9'
     sitemap.puts builder.to_xml
     sitemap.close
-    SitemapGenerator::CONFIG.clear
-    @sg = SitemapGenerator.new 'test/traverse'
+    Seacrest::SitemapGenerator::CONFIG.clear
+    @sg = Seacrest::SitemapGenerator.new 'test/traverse'
   end
 
   def teardown
