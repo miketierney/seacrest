@@ -9,9 +9,9 @@ module Seacrest
     def initialize file_hash
       @files = file_hash
 
-      @all_selectors = []
+      @all_selectors    = []
       @unique_selectors = {}
-      @dup_selectors = {}
+      @dup_selectors    = {}
       @unused_selectors = []
     end
 

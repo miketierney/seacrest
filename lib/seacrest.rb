@@ -1,5 +1,3 @@
-$: << File.dirname(__FILE__)
-
 require 'nokogiri'
 require 'seacrest/csscrubber'
 require 'seacrest/collectors'

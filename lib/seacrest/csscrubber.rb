@@ -10,6 +10,7 @@ module Seacrest
       @root = root
 
       # @file = file
+<<<<<<< HEAD:lib/seacrest/csscrubber.rb
       @css_files = []
       @html_files = []
       @files = {}
@@ -17,6 +18,15 @@ module Seacrest
       @all_selectors = []
       @unique_selectors = {}
       @dup_selectors = {}
+=======
+      @css_files  = []
+      @html_files = []
+      @files      = {}
+
+      @all_selectors    = []
+      @unique_selectors = {}
+      @dup_selectors    = {}
+>>>>>>> a60754de728f632ee9af8d80e812ccf6e56435de:lib/seacrest/csscrubber.rb
 
       traverse
     end
