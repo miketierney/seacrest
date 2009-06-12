@@ -1,3 +1,5 @@
-require '../lib/seacrest'
+$: << File.join(File.dirname(__FILE__), 'lib')
 
-CSScrubber.run(ARGV[0])
+require 'seacrest'
+
+Seacrest::CSScrubber.run(ARGV)

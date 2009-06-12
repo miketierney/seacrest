@@ -1,6 +1,8 @@
 require 'find'
 require 'csspool'
 
+require 'seacrest/collectors'
+
 module Seacrest
   class CSScrubber
 
@@ -48,7 +50,8 @@ module Seacrest
       @unused_selectors = collection.unused_selectors.flatten
     end
     
-    def self.run root
+    def self.run argv
+      root = argv.first
       css = CSScrubber.new root
       css.process_files
     end
@@ -56,4 +59,4 @@ module Seacrest
   end
 end
 
-CSScrubber.run(ARGV[0], ARGV[1]) if $0 == __FILE__
+Seacrest::CSScrubber.run(ARGV) if $0 == __FILE__
