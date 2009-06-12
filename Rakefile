@@ -14,6 +14,7 @@ Hoe.new('seacrest', Seacrest::VERSION) do |p|
   p.developer('Michael Tierney', 'mike@panpainter.com')
 
   p.extra_deps      = ['nokogiri','>=1.2.4']
+  p.extra_deps      = ['csspool','>=0.2.6']
 end
 
 # vim: syntax=Ruby
