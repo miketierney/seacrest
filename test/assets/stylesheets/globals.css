@@ -8,6 +8,10 @@
   font-size: 1.4em;
 }
 
+#call_to_action {
+  background-color: #eee;
+}
+
 ul li:first-child {
   color: #9cc;
   font-weight: bold;
@@ -21,6 +25,6 @@ ul li:first-child {
   color: #f00;
 }
 
-#call_to_action {
-  background-color: #eee;
+.arbitrary_class {
+  color: #fff;
 }

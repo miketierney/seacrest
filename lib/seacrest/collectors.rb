@@ -49,15 +49,12 @@ module Seacrest
               collector.selectors = @all_selectors.flatten
               collector.unique_selectors = @unique_selectors
 
-              # collector.selectors
-              # p collector.unique_selectors
-              # 
               collector.process(file)
-              unused_selectors << collector.unused_selectors
+              @unused_selectors << collector.unused_selectors
               
             end
           end
-          @unused_selectors = unused_selectors
+          # @unused_selectors << unused_selectors
         end
       end
       
