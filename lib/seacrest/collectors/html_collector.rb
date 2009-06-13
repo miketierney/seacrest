@@ -5,7 +5,6 @@ module Seacrest
     def initialize
       @selectors = [] # This array should be populated by the CSS Collector, since that's what we're checking against.
       @unused_selectors = []
-      @pseudo_classes = []
     end
 
     def process file

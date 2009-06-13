@@ -26,7 +26,11 @@ module Seacrest
           if @dup_selectors[selector] && !@dup_selectors[selector].include?(filename)
             @dup_selectors[selector] << filename
           else
-            @dup_selectors[selector] = @unique_selectors[selector][:files]
+            unless @unique_selectors[selector][:files].first == filename
+              @dup_selectors[selector] = [@unique_selectors[selector][:files].first, filename]
+            else
+              @dup_selectors[selector] = @unique_selectors[selector][:files]
+            end
           end
         end
         

@@ -77,6 +77,16 @@ class TestCSScrubber < Test::Unit::TestCase
     expected = ['globals.css','csscrubber.css']
     assert_equal expected, actual
   end
+
+  def test_dup_unused_shouldnt_overwrite_one_another
+    assert @scrubber.unused_selectors.include?('.arbitrary_class'), "Should include the .arbitrary_class selector."
+    assert @scrubber.dup_selectors.include?('.arbitrary_class'), ".arbitrary_class lives in both csscrubber.css and globals.css, and isn't used in any HTML file."
+    
+    actual = @scrubber.dup_selectors['.arbitrary_class']
+    expected = ['globals.css','csscrubber.css']
+    assert_equal expected, actual
+  end
+
   
   def test_dup_unused_really_doesnt_overwrite_one_another
     assert @scrubber.unused_selectors.include?('.info'), "Should include the #call_to_action selector."

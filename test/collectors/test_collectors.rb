@@ -61,7 +61,7 @@ class TestCollectors < Test::Unit::TestCase
   end
   
   def test_unused_multiple_files
-    assert @collectors.unused_selectors.include?('.arbitary_class'), "Should have a selector from csscrubber.css"
+    assert @collectors.unused_selectors.include?('.arbitrary_class'), "Should have a selector from csscrubber.css"
     assert @collectors.unused_selectors.include?('.not_in_file'), "Should have a selector from stylesheets/globals.css"
   end
 

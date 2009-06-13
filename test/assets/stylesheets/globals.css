@@ -21,10 +21,10 @@ ul li:first-child {
   min-height: 20px;
 }
 
-.not_in_file {
-  color: #f00;
-}
-
 .arbitrary_class {
   color: #fff;
+}
+
+.not_in_file {
+  color: #f00;
 }
