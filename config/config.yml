@@ -5,7 +5,7 @@
 #
 # Uncomment the line below if you would like to specify a priority for your pages. The default is 0.5.
 # Options: 0.0 - 1.0
-# priority: 0.5
+priority: 0.5
 #
 # Uncomment the line below if you would like to specify a change frequency for your pages. The value "always" should be used to describe documents that change each time they are accessed. The value "never" should be used to describe archived URLs.
 # Options: always, hourly, daily, weekly, monthly, yearly, never
