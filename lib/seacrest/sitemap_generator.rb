@@ -1,12 +1,16 @@
 require 'find'
 require 'fileutils'
-require 'nokogiri'
 
 module Seacrest
   class SitemapGenerator
     attr_accessor :pages, :sitemap, :existing_pages
 
     CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), "../../config/config.yml")) || {}
+    
+    def self.run path
+      Seacrest::SitemapGenerator.new path
+      puts "Sitemap Generated at #{path}"
+    end
 
     def initialize origin
       @pages = []
@@ -79,7 +83,7 @@ module Seacrest
     def write_sitemap
       expanded = File.expand_path(File.join(@origin, 'sitemap.xml'))
       file = File.open(expanded, 'w')
-      @sitemap.write_xml_to file, :indent => 5
+      @sitemap.write_xml_to file, :indent => 2, :encoding => 'UTF-8'
       file.rewind
     end
   end
