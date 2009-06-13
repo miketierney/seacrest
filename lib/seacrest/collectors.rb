@@ -1,5 +1,5 @@
-require 'seacrest/collectors/css_collector'
-require 'seacrest/collectors/html_collector'
+require 'lib/seacrest/collectors/css_collector'
+require 'lib/seacrest/collectors/html_collector'
 
 module Seacrest
   class Collectors
@@ -34,6 +34,8 @@ module Seacrest
 
           collector = eval("#{ext.upcase}Collector").new
           # @processed["#{ext.downcase}"] = []
+          
+          unused_selectors = []
 
           files.last.each do |file|
             if ext.downcase == 'css'
@@ -52,13 +54,14 @@ module Seacrest
               
             end
           end
+          # @unused_selectors << unused_selectors
         end
       end
       
       @unused_selectors.flatten!
 
       @unused_selectors.each do |selector|
-        if @unique_selectors[selector][:state] == true
+        if @unique_selectors[selector][:used] == true
           @unused_selectors.delete(selector)
         end
       end

@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+
+require "lib/seacrest"
+
+# puts "Scrub scrub scrub scrub scrub scrub scrub"
+
+output = Seacrest::CSScrubber.run(ARGV)
+
+if output.dup_selectors.size >= 1
+  
+  puts "\n#############################"
+  puts "###  Duplicate Selectors  ###"
+  puts "#############################\n\n"
+  
+  puts "You have #{output.dup_selectors.size} duplicate selector#{'s' unless output.dup_selectors.size == 1 }.\n\n"
+
+  output.dup_selectors.each do |key, value|
+    puts "#{key}\n"
+    puts "  Found in the following files:\n"
+    value.each do |file|
+      puts "  | #{file}"
+    end
+    puts "\n"
+  end
+end
+
+if output.unused_selectors.size >= 1
+  
+  output.unused_selectors.sort!
+  
+  puts "\n##############################"
+  puts "#####  Unused Selectors  #####"
+  puts "##############################\n\n"
+  
+  output.unused_selectors.uniq!.sort!
+  
+  puts "You have #{output.unused_selectors.size} unused selector#{'s' unless output.unused_selectors.size == 1 }.\n\n"
+
+  # p output.all_selectors
+  # p output.dup_selectors
+
+  output.unused_selectors.each do |selector|
+    puts "#{selector}"
+    p output.dup_selectors.has_key?(selector) ? output.dup_selectors[selector] : output.unique_selectors[selector]
+    # puts "  Found in the following files:\n"
+    # files = output.unique_selectors[selector][:files]
+    # p files
+    # files.each do |file|
+    #   puts "  | #{file}"
+    # end
+    puts "\n\n"
+  end
+end
+
+# if output.unique_selectors.size >= 1
+#   
+#   puts "\n##############################"
+#   puts "#####  Unique Selectors  #####"
+#   puts "##############################\n\n"
+#   
+#   puts "You have #{output.unique_selectors.size} selector#{'s' unless output.unique_selectors.size == 1 } in all of your css files.\n\n"
+# 
+#   output.unique_selectors.each do |key, value|
+#     puts "#{key}"
+#     puts "  Found in the following files:\n"
+#     value[:files].each do |file|
+#       puts "  | #{file}"
+#     end
+#     puts "\n"
+#   end
+# end

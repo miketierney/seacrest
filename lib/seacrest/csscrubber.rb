@@ -45,8 +45,17 @@ module Seacrest
       @all_selectors = collection.all_selectors.flatten # Only want a one dimensional array.  None of this two dimensional nonsense.
       @unique_selectors = collection.unique_selectors
       @dup_selectors = collection.dup_selectors
-      @unused_selectors = collection.unused_selectors.flatten
+      @unused_selectors = collection.unused_selectors
+    end
+    
+    def self.run argv
+      root = argv.first
+      css = CSScrubber.new root
+      css.process_files
+      return css
     end
 
   end
 end
+
+Seacrest::CSScrubber.run(ARGV) if $0 == __FILE__

@@ -1,6 +1,3 @@
-require 'csspool'
-require 'seacrest/collectors'
-
 module Seacrest
   class CSSCollector
     #
@@ -24,22 +21,21 @@ module Seacrest
 
       @all_selectors.each do |selector|
         if ! @unique_selectors[selector]
-          # @unique_selectors[selector] = [filename, find_line_number(file, selector)]
           @unique_selectors[selector] = { :files => [filename], :used => false }
         else
-          if ! @dup_selectors[selector]
-            # first time out, we want to grab the one from the "unique" selectors list and add it to the duplicated selectors list so that we have ALL occurrences of the selector in the dup list.
-            @dup_selectors[selector] = @unique_selectors[selector][:files]
+          if @dup_selectors[selector] && !@dup_selectors[selector].include?(filename)
+            @dup_selectors[selector] << filename
           else
-            # once there's a key in the hash, just add to that key.
-            unless @dup_selectors[selector].include? filename
-              @dup_selectors[selector] << filename
+            unless @unique_selectors[selector][:files].first == filename
+              @dup_selectors[selector] = [@unique_selectors[selector][:files].first, filename]
+            else
+              @dup_selectors[selector] = @unique_selectors[selector][:files]
             end
           end
         end
+        
       end
     end
-    # HOLY CRAP THAT'S A LOT OF "END"s!!!
   end
 
   class CSSHandler < CSS::SAC::DocumentHandler

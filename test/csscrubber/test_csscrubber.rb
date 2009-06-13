@@ -60,7 +60,7 @@ class TestCSScrubber < Test::Unit::TestCase
   
   def test_stores_unused_selectors
     assert @scrubber.unused_selectors.include?('.not_in_file'), "Should include the .not_in_file selector."
-    assert !@scrubber.unused_selectors.include?('.info'), "Should NOT include the .info selector."
+    assert !@scrubber.unused_selectors.include?('.message'), "Should NOT include the .message selector."
   end
   
   def test_stores_duplicate_selectors
@@ -68,4 +68,33 @@ class TestCSScrubber < Test::Unit::TestCase
     assert @scrubber.dup_selectors['.info'].include?('csscrubber.css'), "Should include the .info selector files."
     assert @scrubber.dup_selectors['.info'].include?('globals.css'), "Should include the .info selector files."
   end
+  
+  def test_dup_unused_dont_overwrite_one_another
+    assert @scrubber.unused_selectors.include?('#call_to_action'), "Should include the #call_to_action selector."
+    assert @scrubber.dup_selectors.include?('#call_to_action'), "#call_to_action lives in both csscrubber.css and globals.css, and isn't used in any HTML file."
+    
+    actual = @scrubber.dup_selectors['#call_to_action']
+    expected = ['globals.css','csscrubber.css']
+    assert_equal expected, actual
+  end
+
+  def test_dup_unused_shouldnt_overwrite_one_another
+    assert @scrubber.unused_selectors.include?('.arbitrary_class'), "Should include the .arbitrary_class selector."
+    assert @scrubber.dup_selectors.include?('.arbitrary_class'), ".arbitrary_class lives in both csscrubber.css and globals.css, and isn't used in any HTML file."
+    
+    actual = @scrubber.dup_selectors['.arbitrary_class']
+    expected = ['globals.css','csscrubber.css']
+    assert_equal expected, actual
+  end
+
+  
+  def test_dup_unused_really_doesnt_overwrite_one_another
+    assert @scrubber.unused_selectors.include?('.info'), "Should include the #call_to_action selector."
+    assert @scrubber.dup_selectors.include?('.info'), "#call_to_action lives in both csscrubber.css and globals.css, and isn't used in any HTML file."
+    
+    actual = @scrubber.dup_selectors['.info']
+    expected = ['globals.css','csscrubber.css']
+    assert_equal expected, actual
+  end
+  
 end

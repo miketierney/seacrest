@@ -6,9 +6,9 @@ class TestHTMLCollector < Test::Unit::TestCase
     @html_file = "#{ASSET_DIR}/csscrubber.html"
     @selectors = ['body', 'h2', '.not_in_file', '.not_in_file']
     @unique_selectors = {
-      'body'            => {:files => 'csscrubber.css', :state => false },
-      'h2'              => {:files => 'csscrubber.css', :state => false },
-      '.not_in_file'    => {:files => 'csscrubber.css', :state => false }
+      'body'            => {:files => 'csscrubber.css', :used => false },
+      'h2'              => {:files => 'csscrubber.css', :used => false },
+      '.not_in_file'    => {:files => 'csscrubber.css', :used => false }
     }
     
     @my_html.selectors = @selectors

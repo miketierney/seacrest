@@ -13,7 +13,7 @@ class TestCSSCollector < Test::Unit::TestCase
 
   def test_start_selector
     actual = @parser.parse(File.read(@css_file))
-    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
+    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info', '.arbitrary_class', '.not_in_class']
     assert_equal expected, actual.selectors
   end
 
@@ -34,7 +34,7 @@ class TestCSSCollector < Test::Unit::TestCase
 
   def test_all_selectors
     actual = @my_css.all_selectors
-    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info']
+    expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info', '.arbitrary_class', '.not_in_class']
     assert_equal expected, actual
   end
 
