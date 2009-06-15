@@ -1,5 +1,5 @@
-require 'lib/seacrest/collectors/css_collector'
-require 'lib/seacrest/collectors/html_collector'
+require 'seacrest/collectors/css_collector'
+require 'seacrest/collectors/html_collector'
 
 module Seacrest
   class Collectors
