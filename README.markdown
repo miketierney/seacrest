@@ -28,12 +28,16 @@ Build the following
   - Extract "traverse" method out from the duplicated locations (currently code is used in both CSScrubber and the Sitemap Generator)
 
 ###### CSScrubber
+  - Should work more like a Lint-style tool, at least the reporting aspects of it
 
 ###### Need to haves
  - Find CSS files linked within HTML files (may not live inside a known directory) ??? -> may be moot with proper directory traversal
  - Traverse a live site and compare the files with one another
+ - Use something like webrat to spin up a localized version of an application (rails, sinatra, etc) and parse the files
+ - Parse SASS/SCSS files
 
 ###### Nice to haves
+ - Pre-load all possible selectors from the HTML file
  - Find a way to know what selectors *are* being used in an HTML file, even if they're not listed in the CSS file.
  - Add the ability to ignore known frameworks (960.gs, blueprint.css, etc) or the ability to include these if they are ignored by default
 
@@ -44,8 +48,10 @@ Build the following
 
 ### REQUIREMENTS:
 
- - csspool (>= 0.2.6)
- - Nokogiri (>= 1.2.4)
+ - csspool (~> 0.2.6)
+ - Nokogiri (~> 1.3.1.20090611092310)
+
+**NOTE:** This is ONLY tested against csspool version 0.2.6. It is, however, known to *not* work with 2.0.0. A fix is in the works for this, but at current it will not run if anything newer than version 0.2.6 is installed.
 
 ### INSTALL:
 
