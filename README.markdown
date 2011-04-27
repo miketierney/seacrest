@@ -1,17 +1,17 @@
-## Seacrest
+# Seacrest
 
 * [http://wiki.github.com/miketierney/seacrest](http://wiki.github.com/miketierney/seacrest)
 
-### DESCRIPTION:
+## DESCRIPTION:
 
 A collection of tools for web masters, designers and developers to create and maintain a semantic and healthy codebase
 
-### FEATURES/PROBLEMS:
+## FEATURES/PROBLEMS:
 
 - Need to implement last modified optional for Sitemap Generator
 - CSScrubber needs to not be file agnostic; right now everything's ending up in the unused selectors list.
 
-#### TODO:
+### TODO:
 Build the following
 
 - Identify broken URLs (internal, external and resources)
@@ -23,45 +23,45 @@ Build the following
 - Generate a Google Sitemap
 - The command line interface would allow you to run the entire suite or each tool individually via triggers.
 
-##### General TODO's:
+#### General TODO's:
  - Need a general utilities file/class/whatever
   - Extract "traverse" method out from the duplicated locations (currently code is used in both CSScrubber and the Sitemap Generator)
 
-###### CSScrubber
-  - Should work more like a Lint-style tool, at least the reporting aspects of it
+##### CSScrubber
+- Should work more like a Lint-style tool, at least the reporting aspects of it
 
-###### Need to haves
+##### Need to haves
  - Find CSS files linked within HTML files (may not live inside a known directory) ??? -> may be moot with proper directory traversal
  - Traverse a live site and compare the files with one another
  - Use something like webrat to spin up a localized version of an application (rails, sinatra, etc) and parse the files
  - Parse SASS/SCSS files
 
-###### Nice to haves
+##### Nice to haves
  - Pre-load all possible selectors from the HTML file
  - Find a way to know what selectors *are* being used in an HTML file, even if they're not listed in the CSS file.
  - Add the ability to ignore known frameworks (960.gs, blueprint.css, etc) or the ability to include these if they are ignored by default
 
 
-### SYNOPSIS:
+## SYNOPSIS:
 
 *None yet*
 
-### REQUIREMENTS:
+## REQUIREMENTS:
 
  - csspool (~> 0.2.6)
  - Nokogiri (~> 1.3.1.20090611092310)
 
 **NOTE:** This is ONLY tested against csspool version 0.2.6. It is, however, known to *not* work with 2.0.0. A fix is in the works for this, but at current it will not run if anything newer than version 0.2.6 is installed.
 
-### INSTALL:
+## INSTALL:
 
 *No installer yet ... will probably be a gem at some point.*
 
-### LICENSE:
+## LICENSE:
 
 *(The MIT License)*
 
-Copyright (c) 2009 Matthew Anderson, Brandon Caplan and Michael Tierney
+Copyright (c) 2009-2011 Matthew Anderson, Brandon Caplan and Michael Tierney
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

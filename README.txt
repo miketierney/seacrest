@@ -61,7 +61,7 @@ NOTE: This is ONLY tested against csspool version 0.2.6. It is, however, known t
 
 (The MIT License)
 
-Copyright (c) 2009 Matthew Anderson, Brandon Caplan and Michael Tierney
+Copyright (c) 2009-2011 Matthew Anderson, Brandon Caplan and Michael Tierney
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
