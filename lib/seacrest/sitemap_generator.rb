@@ -1,5 +1,6 @@
 require 'find'
 require 'fileutils'
+require 'yaml'
 
 module Seacrest
   class SitemapGenerator
