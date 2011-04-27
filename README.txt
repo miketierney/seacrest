@@ -1,6 +1,6 @@
 = seacrest
 
-* http://wiki.github.com/panpainter/seacrest
+* http://wiki.github.com/miketierney/seacrest
 
 == DESCRIPTION:
 
