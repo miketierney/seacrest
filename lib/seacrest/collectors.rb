@@ -1,3 +1,4 @@
+require 'csspool'
 require 'seacrest/collectors/css_collector'
 require 'seacrest/collectors/html_collector'
 

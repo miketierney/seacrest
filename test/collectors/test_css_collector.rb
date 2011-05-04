@@ -2,19 +2,18 @@ require 'helper'
 
 class TestCSSCollector < Test::Unit::TestCase
   def setup
+    # dummy test file
     @css_file = "#{ASSET_DIR}/csscrubber.css"
-    # Testing the Document Handler
-    @parser = CSS::SAC::Parser.new(Collectors::CSSHandler.new)
 
     # Testing the Collector
-    @my_css = Collectors::CSSCollector.new
+    @my_css = CSSCollector.new
     @my_css.process @css_file
   end
 
-  def test_start_selector
-    actual = @parser.parse(File.read(@css_file))
+  def test_parser
+    actual = @my_css.all_selectors
     expected = ['body','p','a:link','a:visited','a:hover','a:active','div.message','.info','.info.message','em','.ampersand','.info','.message', '#call_to_action', '.info', '.arbitrary_class', '.not_in_class']
-    assert_equal expected, actual.selectors
+    assert_equal expected, actual
   end
 
   def test_unique_selectors_hash_gets_populated
